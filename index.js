@@ -13,7 +13,7 @@ const yesBtn2 = document.getElementById("yes2");
 const isTouchDevice =
   "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-// ===== USER MOVE GUARD (DESKTOP) =====
+// ===== DESKTOP MOVE GUARD =====
 let userHasMoved = false;
 if (!isTouchDevice) {
   document.addEventListener(
@@ -30,17 +30,8 @@ let noTouchAttempts = 0;
 let daaruTouchAttempts = 0;
 const MAX_MOBILE_ESCAPES = 3;
 
-// ===== ESCAPE CONTROL =====
-let escapeDisabled = false;
-
-// ===== TEASING ESCAPE LOGIC =====
-function teaseEscape(btn, clientX, clientY) {
-  if (escapeDisabled) return;
-
-  // Desktop guard
-  if (!isTouchDevice && !userHasMoved) return;
-
-  // Freeze initial position
+// ===== ESCAPE CORE =====
+function freezePosition(btn) {
   if (!btn.dataset.escaped) {
     const rect = btn.getBoundingClientRect();
     btn.style.position = "fixed";
@@ -49,45 +40,62 @@ function teaseEscape(btn, clientX, clientY) {
     btn.style.zIndex = 1000;
     btn.dataset.escaped = "true";
   }
+}
 
-  const btnRect = btn.getBoundingClientRect();
+// ===== DESKTOP: TEASING ESCAPE =====
+function teaseEscape(btn, x, y) {
+  if (!userHasMoved) return;
 
-  // Button center
-  const btnCenterX = btnRect.left + btnRect.width / 2;
-  const btnCenterY = btnRect.top + btnRect.height / 2;
+  freezePosition(btn);
 
-  // Direction vector (cursor/touch → button)
-  let dx = clientX - btnCenterX;
-  let dy = clientY - btnCenterY;
+  const rect = btn.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
 
-  const distance = Math.sqrt(dx * dx + dy * dy) || 1;
-  dx /= distance;
-  dy /= distance;
+  let dx = x - centerX;
+  let dy = y - centerY;
 
-  // Tease distance (smaller on mobile)
-  const moveDistance = isTouchDevice ? 60 : 80;
+  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+  dx /= dist;
+  dy /= dist;
 
-  let newX = btnRect.left - dx * moveDistance;
-  let newY = btnRect.top - dy * moveDistance;
+  const moveDistance = 80;
 
-  // Clamp to viewport
+  let newX = rect.left - dx * moveDistance;
+  let newY = rect.top - dy * moveDistance;
+
   const padding = 10;
   newX = Math.max(
     padding,
-    Math.min(window.innerWidth - btnRect.width - padding, newX)
+    Math.min(window.innerWidth - rect.width - padding, newX)
   );
   newY = Math.max(
     padding,
-    Math.min(window.innerHeight - btnRect.height - padding, newY)
+    Math.min(window.innerHeight - rect.height - padding, newY)
   );
 
   btn.style.left = `${newX}px`;
   btn.style.top = `${newY}px`;
 }
 
+// ===== MOBILE: RANDOM ESCAPE =====
+function randomEscape(btn) {
+  freezePosition(btn);
+
+  const padding = 20;
+  const maxX = window.innerWidth - btn.offsetWidth - padding;
+  const maxY = window.innerHeight - btn.offsetHeight - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  btn.style.left = `${x}px`;
+  btn.style.top = `${y}px`;
+}
+
 // ===== NO BUTTON =====
 if (!isTouchDevice) {
-  // Desktop
+  // Desktop → teasing
   noBtn.addEventListener("mousemove", (e) =>
     teaseEscape(noBtn, e.clientX, e.clientY)
   );
@@ -95,18 +103,17 @@ if (!isTouchDevice) {
     teaseEscape(noBtn, e.clientX, e.clientY)
   );
 } else {
-  // Mobile
+  // Mobile → random escape
   noBtn.addEventListener("touchstart", (e) => {
     if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
       e.preventDefault();
       noTouchAttempts++;
-      const touch = e.touches[0];
-      teaseEscape(noBtn, touch.clientX, touch.clientY);
+      randomEscape(noBtn);
     }
   });
 }
 
-// Allow click after teasing
+// Click still works
 noBtn.addEventListener("click", () => {
   stage1.classList.add("hidden");
   stage2.classList.remove("hidden");
@@ -114,7 +121,7 @@ noBtn.addEventListener("click", () => {
 
 // ===== DAARU BUTTON =====
 if (!isTouchDevice) {
-  // Desktop
+  // Desktop → teasing
   daaruBtn.addEventListener("mousemove", (e) =>
     teaseEscape(daaruBtn, e.clientX, e.clientY)
   );
@@ -122,13 +129,12 @@ if (!isTouchDevice) {
     teaseEscape(daaruBtn, e.clientX, e.clientY)
   );
 } else {
-  // Mobile
+  // Mobile → random escape
   daaruBtn.addEventListener("touchstart", (e) => {
     if (daaruTouchAttempts < MAX_MOBILE_ESCAPES) {
       e.preventDefault();
       daaruTouchAttempts++;
-      const touch = e.touches[0];
-      teaseEscape(daaruBtn, touch.clientX, touch.clientY);
+      randomEscape(daaruBtn);
     }
   });
 }
