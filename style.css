@@ -7,7 +7,7 @@
 
 /* ===== PAGE ===== */
 body {
-  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: linear-gradient(180deg, #eaf6ff, #cfe9ff);
   height: 100vh;
 
@@ -27,43 +27,56 @@ body {
   box-shadow: 0 20px 50px rgba(70,130,180,0.25);
 }
 
-/* ===== TEXT ===== */
+/* ===== HEADINGS ===== */
 h1 {
-  font-size: 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
   color: #2b6cb0;
   margin-bottom: 8px;
 }
 
+/* ===== PARAGRAPHS ===== */
 p {
   font-size: 15px;
+  font-weight: 400;
   color: #4a6fa5;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 16px;
 }
 
+/* ===== HINT TEXT ===== */
 .hint {
   font-size: 14px;
+  font-weight: 500;
   color: #6b93c8;
 }
 
-/* ===== IMAGE ===== */
+/* ===== IMAGES ===== */
 .main-img {
   width: 160px;
   border-radius: 18px;
   margin: 12px 0 18px;
+
   box-shadow: 0 10px 25px rgba(100,149,237,0.3);
 }
 
 /* ===== BUTTON AREA ===== */
 .buttons {
-  position: relative;
-  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   margin-top: 10px;
 }
 
 /* ===== BUTTON BASE ===== */
 button {
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+
   padding: 10px 18px;
   border-radius: 30px;
   border: none;
@@ -73,7 +86,11 @@ button {
   white-space: nowrap;
 
   user-select: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: 
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    left 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+    top 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Click feedback */
@@ -92,16 +109,9 @@ button:active {
 /* ===== NO & DAARU ===== */
 #no,
 #daaru {
-  position: fixed; /* 🔥 escape everything */
-
   background: #b3d9ff;
   color: #245b9e;
   box-shadow: 0 6px 16px rgba(179,217,255,0.5);
-
-  transition: left 0.45s cubic-bezier(0.25, 1, 0.5, 1),
-              top 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-
-  z-index: 1000; /* always on top */
 }
 
 /* ===== UTILITY ===== */
