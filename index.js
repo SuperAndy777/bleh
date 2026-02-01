@@ -9,9 +9,24 @@ const daaruBtn = document.getElementById("daaru");
 const yesBtn = document.getElementById("yes");
 const yesBtn2 = document.getElementById("yes2");
 
+// ===== USER MOVE GUARD =====
+// Prevent instant escape on page load
+let userHasMoved = false;
+
+document.addEventListener(
+  "mousemove",
+  () => {
+    userHasMoved = true;
+  },
+  { once: true }
+);
+
 // ===== ESCAPE LOGIC =====
 function escape(btn) {
-  // Freeze position on first escape
+  // Do nothing until user actually moves mouse
+  if (!userHasMoved) return;
+
+  // Freeze initial position on first escape
   if (!btn.dataset.escaped) {
     const rect = btn.getBoundingClientRect();
     btn.style.position = "fixed";
@@ -36,7 +51,7 @@ function escape(btn) {
 noBtn.addEventListener("mouseenter", () => escape(noBtn));
 noBtn.addEventListener("mousemove", () => escape(noBtn));
 
-// Touch support
+// Touch support (mobile)
 noBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
   escape(noBtn);
@@ -46,7 +61,7 @@ noBtn.addEventListener("touchstart", (e) => {
 daaruBtn.addEventListener("mouseenter", () => escape(daaruBtn));
 daaruBtn.addEventListener("mousemove", () => escape(daaruBtn));
 
-// Touch support
+// Touch support (mobile)
 daaruBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
   escape(daaruBtn);
@@ -70,9 +85,11 @@ function finalYes() {
       background:linear-gradient(180deg,#eaf6ff,#cfe9ff);
       text-align:center;
       padding:20px;
-      font-family:'Poppins','Segoe UI',Arial;
+      font-family:'Inter','Segoe UI',Arial;
     ">
-      <h1 style="font-size:30px;color:#2b6cb0;">YAYYYY 💙</h1>
+      <h1 style="font-family:'Playfair Display',serif;font-size:30px;color:#2b6cb0;">
+        YAYYYY 💙
+      </h1>
       <img
         src="https://i.pinimg.com/736x/2a/69/bd/2a69bd3a0c657272a5ddac106dada255.jpg"
         style="width:200px;border-radius:20px;margin:20px 0;"
