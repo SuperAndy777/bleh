@@ -9,75 +9,51 @@ const daaruBtn = document.getElementById("daaru");
 const yesBtn = document.getElementById("yes");
 const yesBtn2 = document.getElementById("yes2");
 
-let daaruLocked = false;
-
-// ===== MOVE LOGIC =====
-function moveButton(btn) {
-  const padding = 20;
-
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-
-  let x, y;
-  let safe = false;
-
- const yesBtn = document.getElementById("yes");
-const yesRect = yesBtn ? yesBtn.getBoundingClientRect() : null;
-
-  while (!safe) {
-    x = Math.random() * (viewportWidth - btn.offsetWidth - padding);
-    y = Math.random() * (viewportHeight - btn.offsetHeight - padding);
-
-    // Prevent covering YES button (only for daaru)
-    if (btn.id === "daaru" && yesRect) {
-      const overlap =
-        x < yesRect.right &&
-        x + btn.offsetWidth > yesRect.left &&
-        y < yesRect.bottom &&
-        y + btn.offsetHeight > yesRect.top;
-
-      if (overlap) continue;
-    }
-
-    safe = true;
+// ===== ESCAPE LOGIC =====
+function escape(btn) {
+  // Freeze position on first escape
+  if (!btn.dataset.escaped) {
+    const rect = btn.getBoundingClientRect();
+    btn.style.position = "fixed";
+    btn.style.left = rect.left + "px";
+    btn.style.top = rect.top + "px";
+    btn.style.zIndex = 1000;
+    btn.dataset.escaped = "true";
   }
+
+  const padding = 20;
+  const maxX = window.innerWidth - btn.offsetWidth - padding;
+  const maxY = window.innerHeight - btn.offsetHeight - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
   btn.style.left = `${x}px`;
   btn.style.top = `${y}px`;
 }
 
-// ===== NO BUTTON (STAGE 1) =====
-noBtn.addEventListener("mousemove", () => moveButton(noBtn));
-noBtn.addEventListener("mouseenter", () => moveButton(noBtn));
+// ===== NO BUTTON =====
+noBtn.addEventListener("mouseenter", () => escape(noBtn));
+noBtn.addEventListener("mousemove", () => escape(noBtn));
 
+// Touch support
 noBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
-  moveButton(noBtn);
+  escape(noBtn);
 });
 
-// Switch to stage 2 (almost impossible 😈)
-noBtn.addEventListener("click", () => {
-  stage1.classList.add("hidden");
-  stage2.classList.remove("hidden");
-});
+// ===== DAARU BUTTON =====
+daaruBtn.addEventListener("mouseenter", () => escape(daaruBtn));
+daaruBtn.addEventListener("mousemove", () => escape(daaruBtn));
 
-// ===== DAARU BUTTON (STAGE 2) =====
-daaruBtn.addEventListener("mousemove", () => {
-  if (!daaruLocked) moveButton(daaruBtn);
-});
-
-daaruBtn.addEventListener("mouseenter", () => {
-  if (!daaruLocked) moveButton(daaruBtn);
-});
-
+// Touch support
 daaruBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
-  if (!daaruLocked) moveButton(daaruBtn);
+  escape(daaruBtn);
 });
 
-// Catching daaru = surrender 🍻
+// ===== DAARU CLICK → GIVE UP =====
 daaruBtn.addEventListener("click", () => {
-  daaruLocked = true;
   stage2.classList.add("hidden");
   stage3.classList.remove("hidden");
 });
