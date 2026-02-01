@@ -9,20 +9,38 @@ const daaruBtn = document.getElementById("daaru");
 const yesBtn = document.getElementById("yes");
 const yesBtn2 = document.getElementById("yes2");
 
-// ===== USER MOVE GUARD =====
+// ===== DEVICE DETECTION =====
+const isTouchDevice =
+  "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+// ===== USER MOVE GUARD (DESKTOP) =====
 let userHasMoved = false;
-document.addEventListener("mousemove", () => {
-  userHasMoved = true;
-}, { once: true });
+if (!isTouchDevice) {
+  document.addEventListener(
+    "mousemove",
+    () => {
+      userHasMoved = true;
+    },
+    { once: true }
+  );
+}
+
+// ===== MOBILE ATTEMPTS =====
+let noTouchAttempts = 0;
+let daaruTouchAttempts = 0;
+const MAX_MOBILE_ESCAPES = 3;
 
 // ===== ESCAPE CONTROL =====
 let escapeDisabled = false;
 
 // ===== TEASING ESCAPE LOGIC =====
-function teaseEscape(btn, event) {
-  if (!userHasMoved || escapeDisabled) return;
+function teaseEscape(btn, clientX, clientY) {
+  if (escapeDisabled) return;
 
-  // Freeze position on first escape
+  // Desktop guard
+  if (!isTouchDevice && !userHasMoved) return;
+
+  // Freeze initial position
   if (!btn.dataset.escaped) {
     const rect = btn.getBoundingClientRect();
     btn.style.position = "fixed";
@@ -34,30 +52,25 @@ function teaseEscape(btn, event) {
 
   const btnRect = btn.getBoundingClientRect();
 
-  // Cursor position
-  const cursorX = event.clientX;
-  const cursorY = event.clientY;
-
   // Button center
   const btnCenterX = btnRect.left + btnRect.width / 2;
   const btnCenterY = btnRect.top + btnRect.height / 2;
 
-  // Direction vector (button -> cursor)
-  let dx = cursorX - btnCenterX;
-  let dy = cursorY - btnCenterY;
+  // Direction vector (cursor/touch → button)
+  let dx = clientX - btnCenterX;
+  let dy = clientY - btnCenterY;
 
-  // Normalize vector
   const distance = Math.sqrt(dx * dx + dy * dy) || 1;
   dx /= distance;
   dy /= distance;
 
-  // Tease distance (small & smooth)
-  const moveDistance = 80;
+  // Tease distance (smaller on mobile)
+  const moveDistance = isTouchDevice ? 60 : 80;
 
   let newX = btnRect.left - dx * moveDistance;
   let newY = btnRect.top - dy * moveDistance;
 
-  // Keep inside viewport
+  // Clamp to viewport
   const padding = 10;
   newX = Math.max(
     padding,
@@ -73,31 +86,52 @@ function teaseEscape(btn, event) {
 }
 
 // ===== NO BUTTON =====
-noBtn.addEventListener("mousemove", (e) => teaseEscape(noBtn, e));
-noBtn.addEventListener("mouseenter", (e) => teaseEscape(noBtn, e));
+if (!isTouchDevice) {
+  // Desktop
+  noBtn.addEventListener("mousemove", (e) =>
+    teaseEscape(noBtn, e.clientX, e.clientY)
+  );
+  noBtn.addEventListener("mouseenter", (e) =>
+    teaseEscape(noBtn, e.clientX, e.clientY)
+  );
+} else {
+  // Mobile
+  noBtn.addEventListener("touchstart", (e) => {
+    if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
+      e.preventDefault();
+      noTouchAttempts++;
+      const touch = e.touches[0];
+      teaseEscape(noBtn, touch.clientX, touch.clientY);
+    }
+  });
+}
 
-noBtn.addEventListener("mousedown", () => {
-  escapeDisabled = true;
-});
-noBtn.addEventListener("mouseup", () => {
-  escapeDisabled = false;
-});
-
+// Allow click after teasing
 noBtn.addEventListener("click", () => {
   stage1.classList.add("hidden");
   stage2.classList.remove("hidden");
 });
 
 // ===== DAARU BUTTON =====
-daaruBtn.addEventListener("mousemove", (e) => teaseEscape(daaruBtn, e));
-daaruBtn.addEventListener("mouseenter", (e) => teaseEscape(daaruBtn, e));
-
-daaruBtn.addEventListener("mousedown", () => {
-  escapeDisabled = true;
-});
-daaruBtn.addEventListener("mouseup", () => {
-  escapeDisabled = false;
-});
+if (!isTouchDevice) {
+  // Desktop
+  daaruBtn.addEventListener("mousemove", (e) =>
+    teaseEscape(daaruBtn, e.clientX, e.clientY)
+  );
+  daaruBtn.addEventListener("mouseenter", (e) =>
+    teaseEscape(daaruBtn, e.clientX, e.clientY)
+  );
+} else {
+  // Mobile
+  daaruBtn.addEventListener("touchstart", (e) => {
+    if (daaruTouchAttempts < MAX_MOBILE_ESCAPES) {
+      e.preventDefault();
+      daaruTouchAttempts++;
+      const touch = e.touches[0];
+      teaseEscape(daaruBtn, touch.clientX, touch.clientY);
+    }
+  });
+}
 
 daaruBtn.addEventListener("click", () => {
   stage2.classList.add("hidden");
