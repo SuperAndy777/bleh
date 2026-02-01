@@ -10,23 +10,19 @@ const yesBtn = document.getElementById("yes");
 const yesBtn2 = document.getElementById("yes2");
 
 // ===== USER MOVE GUARD =====
-// Prevent instant escape on page load
 let userHasMoved = false;
+document.addEventListener("mousemove", () => {
+  userHasMoved = true;
+}, { once: true });
 
-document.addEventListener(
-  "mousemove",
-  () => {
-    userHasMoved = true;
-  },
-  { once: true }
-);
+// ===== ESCAPE CONTROL =====
+let escapeDisabled = false;
 
-// ===== ESCAPE LOGIC =====
-function escape(btn) {
-  // Do nothing until user actually moves mouse
-  if (!userHasMoved) return;
+// ===== TEASING ESCAPE LOGIC =====
+function teaseEscape(btn, event) {
+  if (!userHasMoved || escapeDisabled) return;
 
-  // Freeze initial position on first escape
+  // Freeze position on first escape
   if (!btn.dataset.escaped) {
     const rect = btn.getBoundingClientRect();
     btn.style.position = "fixed";
@@ -36,38 +32,73 @@ function escape(btn) {
     btn.dataset.escaped = "true";
   }
 
-  const padding = 20;
-  const maxX = window.innerWidth - btn.offsetWidth - padding;
-  const maxY = window.innerHeight - btn.offsetHeight - padding;
+  const btnRect = btn.getBoundingClientRect();
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  // Cursor position
+  const cursorX = event.clientX;
+  const cursorY = event.clientY;
 
-  btn.style.left = `${x}px`;
-  btn.style.top = `${y}px`;
+  // Button center
+  const btnCenterX = btnRect.left + btnRect.width / 2;
+  const btnCenterY = btnRect.top + btnRect.height / 2;
+
+  // Direction vector (button -> cursor)
+  let dx = cursorX - btnCenterX;
+  let dy = cursorY - btnCenterY;
+
+  // Normalize vector
+  const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+  dx /= distance;
+  dy /= distance;
+
+  // Tease distance (small & smooth)
+  const moveDistance = 80;
+
+  let newX = btnRect.left - dx * moveDistance;
+  let newY = btnRect.top - dy * moveDistance;
+
+  // Keep inside viewport
+  const padding = 10;
+  newX = Math.max(
+    padding,
+    Math.min(window.innerWidth - btnRect.width - padding, newX)
+  );
+  newY = Math.max(
+    padding,
+    Math.min(window.innerHeight - btnRect.height - padding, newY)
+  );
+
+  btn.style.left = `${newX}px`;
+  btn.style.top = `${newY}px`;
 }
 
 // ===== NO BUTTON =====
-noBtn.addEventListener("mouseenter", () => escape(noBtn));
-noBtn.addEventListener("mousemove", () => escape(noBtn));
+noBtn.addEventListener("mousemove", (e) => teaseEscape(noBtn, e));
+noBtn.addEventListener("mouseenter", (e) => teaseEscape(noBtn, e));
 
-// Touch support (mobile)
-noBtn.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  escape(noBtn);
+noBtn.addEventListener("mousedown", () => {
+  escapeDisabled = true;
+});
+noBtn.addEventListener("mouseup", () => {
+  escapeDisabled = false;
+});
+
+noBtn.addEventListener("click", () => {
+  stage1.classList.add("hidden");
+  stage2.classList.remove("hidden");
 });
 
 // ===== DAARU BUTTON =====
-daaruBtn.addEventListener("mouseenter", () => escape(daaruBtn));
-daaruBtn.addEventListener("mousemove", () => escape(daaruBtn));
+daaruBtn.addEventListener("mousemove", (e) => teaseEscape(daaruBtn, e));
+daaruBtn.addEventListener("mouseenter", (e) => teaseEscape(daaruBtn, e));
 
-// Touch support (mobile)
-daaruBtn.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  escape(daaruBtn);
+daaruBtn.addEventListener("mousedown", () => {
+  escapeDisabled = true;
+});
+daaruBtn.addEventListener("mouseup", () => {
+  escapeDisabled = false;
 });
 
-// ===== DAARU CLICK → GIVE UP =====
 daaruBtn.addEventListener("click", () => {
   stage2.classList.add("hidden");
   stage3.classList.remove("hidden");
