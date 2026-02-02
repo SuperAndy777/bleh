@@ -32,11 +32,11 @@ const MAX_MOBILE_ESCAPES = 5;
 
 // ===== MOBILE TAUNTS =====
 const teaseTexts = [
-  "No 😌",
-  "Nice try 😏",
-  "Almost 👀",
-  "Haha nope 😛",
-  "Not yet 💙"
+  "ayyo 🙁",
+  "itna kya 🥸",
+  "matlab aisa",
+  "rulayegi kya 😭",
+  "ouch 🫠"
 ];
 
 // ===== UTILITIES =====
