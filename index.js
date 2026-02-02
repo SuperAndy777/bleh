@@ -25,12 +25,27 @@ if (!isTouchDevice) {
   );
 }
 
-// ===== MOBILE ATTEMPTS =====
+// ===== MOBILE DIFFICULTY =====
 let noTouchAttempts = 0;
 let daaruTouchAttempts = 0;
-const MAX_MOBILE_ESCAPES = 3;
+const MAX_MOBILE_ESCAPES = 5;
 
-// ===== ESCAPE CORE =====
+// ===== MOBILE TAUNTS =====
+const teaseTexts = [
+  "No 😌",
+  "Nice try 😏",
+  "Almost 👀",
+  "Haha nope 😛",
+  "Not yet 💙"
+];
+
+// ===== UTILITIES =====
+function vibrateOnEscape() {
+  if ("vibrate" in navigator) {
+    navigator.vibrate(20); // subtle
+  }
+}
+
 function freezePosition(btn) {
   if (!btn.dataset.escaped) {
     const rect = btn.getBoundingClientRect();
@@ -78,16 +93,30 @@ function teaseEscape(btn, x, y) {
   btn.style.top = `${newY}px`;
 }
 
-// ===== MOBILE: RANDOM ESCAPE =====
-function randomEscape(btn) {
+// ===== MOBILE: RANDOM ESCAPE (HARDER) =====
+function randomEscape(btn, attempts) {
   freezePosition(btn);
+  vibrateOnEscape();
 
   const padding = 20;
-  const maxX = window.innerWidth - btn.offsetWidth - padding;
-  const maxY = window.innerHeight - btn.offsetHeight - padding;
+  const jumpFactor = Math.min(1 + attempts * 0.25, 2);
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  let maxX =
+    (window.innerWidth - btn.offsetWidth - padding) * jumpFactor;
+  let maxY =
+    (window.innerHeight - btn.offsetHeight - padding) * jumpFactor;
+
+  let x = Math.random() * maxX;
+  let y = Math.random() * maxY;
+
+  x = Math.max(padding, Math.min(window.innerWidth - btn.offsetWidth - padding, x));
+  y = Math.max(padding, Math.min(window.innerHeight - btn.offsetHeight - padding, y));
+
+  // Cooldown to prevent spam taps
+  btn.style.pointerEvents = "none";
+  setTimeout(() => {
+    btn.style.pointerEvents = "auto";
+  }, 350);
 
   btn.style.left = `${x}px`;
   btn.style.top = `${y}px`;
@@ -108,12 +137,14 @@ if (!isTouchDevice) {
     if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
       e.preventDefault();
       noTouchAttempts++;
-      randomEscape(noBtn);
+      noBtn.textContent =
+        teaseTexts[Math.min(noTouchAttempts - 1, teaseTexts.length - 1)];
+      randomEscape(noBtn, noTouchAttempts);
     }
   });
 }
 
-// Click still works
+// NO click → stage 2
 noBtn.addEventListener("click", () => {
   stage1.classList.add("hidden");
   stage2.classList.remove("hidden");
@@ -134,11 +165,12 @@ if (!isTouchDevice) {
     if (daaruTouchAttempts < MAX_MOBILE_ESCAPES) {
       e.preventDefault();
       daaruTouchAttempts++;
-      randomEscape(daaruBtn);
+      randomEscape(daaruBtn, daaruTouchAttempts);
     }
   });
 }
 
+// DAARU click → stage 3
 daaruBtn.addEventListener("click", () => {
   stage2.classList.add("hidden");
   stage3.classList.remove("hidden");
