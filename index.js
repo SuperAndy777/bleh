@@ -9,6 +9,10 @@ const daaruBtn = document.getElementById("daaru");
 const yesBtn = document.getElementById("yes");
 const yesBtn2 = document.getElementById("yes2");
 
+// ===== IMAGE =====
+const stage1Img = document.getElementById("stage1-img");
+let cryImageShown = false;
+
 // ===== DEVICE DETECTION =====
 const isTouchDevice =
   "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -40,11 +44,11 @@ const noTeaseTexts = [
 ];
 
 const daaruTeaseTexts = [
-  "itna despo 🍺",
+  "bas ek sip 🍺",
   "soch le 👀",
-  "lmao 😂",
-  "haha i can't 🤣",
-  "geez ok 😆"
+  "last chance 😏",
+  "pakka na? 🥺",
+  "dil tod diya 💔"
 ];
 
 // ===== UTILITIES =====
@@ -142,8 +146,18 @@ if (!isTouchDevice) {
     if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
       e.preventDefault();
       noTouchAttempts++;
-      noBtn.textContent =
+
+      const tease =
         noTeaseTexts[Math.min(noTouchAttempts - 1, noTeaseTexts.length - 1)];
+      noBtn.textContent = tease;
+
+      // 💔 IMAGE CHANGE TRIGGER
+      if (tease === "rulayegi kya 😭" && !cryImageShown) {
+        stage1Img.src =
+          "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
+        cryImageShown = true;
+      }
+
       randomEscape(noBtn, noTouchAttempts);
     }
   });
