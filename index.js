@@ -12,6 +12,7 @@ const yesBtn2 = document.getElementById("yes2");
 // ===== IMAGE =====
 const stage1Img = document.getElementById("stage1-img");
 let cryImageShown = false;
+let desktopNoClicks = 0;
 
 // ===== DEVICE DETECTION =====
 const isTouchDevice =
@@ -171,6 +172,36 @@ if (!isTouchDevice) {
 }
 
 noBtn.addEventListener("click", () => {
+  // ----- DESKTOP LOGIC -----
+  if (!isTouchDevice) {
+    desktopNoClicks++;
+
+    // FIRST CLICK → emotional beat
+    if (desktopNoClicks === 1) {
+      noBtn.textContent = "aisa? 🥺";
+
+      // Fade image to crying GIF
+      if (!cryImageShown) {
+        cryImageShown = true;
+        stage1Img.style.opacity = 0;
+
+        setTimeout(() => {
+          stage1Img.src =
+            "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
+          stage1Img.style.opacity = 1;
+        }, 150);
+      }
+
+      return; // ⛔ do NOT go to next stage yet
+    }
+
+    // SECOND CLICK → proceed
+    stage1.classList.add("hidden");
+    stage2.classList.remove("hidden");
+    return;
+  }
+
+  // ----- MOBILE LOGIC (unchanged) -----
   stage1.classList.add("hidden");
   stage2.classList.remove("hidden");
 });
