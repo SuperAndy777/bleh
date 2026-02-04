@@ -151,12 +151,19 @@ if (!isTouchDevice) {
         noTeaseTexts[Math.min(noTouchAttempts - 1, noTeaseTexts.length - 1)];
       noBtn.textContent = tease;
 
-      // 💔 IMAGE CHANGE TRIGGER
-      if (tease === "rulayegi kya 😭" && !cryImageShown) {
+
+    // 💔 IMAGE CHANGE TRIGGER (with fade)
+    if (tease === "rulayegi kya 😭" && !cryImageShown) {
+      cryImageShown = true;
+    
+      stage1Img.style.opacity = 0;
+    
+      setTimeout(() => {
         stage1Img.src =
           "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
-        cryImageShown = true;
-      }
+        stage1Img.style.opacity = 1;
+      }, 150);
+    }
 
       randomEscape(noBtn, noTouchAttempts);
     }
