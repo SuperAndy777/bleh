@@ -1,3 +1,4 @@
+// Ask Out hs
 // ===== STAGES =====
 const stage1 = document.getElementById("stage1");
 const stage2 = document.getElementById("stage2");
