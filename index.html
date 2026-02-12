@@ -1,9 +1,10 @@
-<!-- Ask Out -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <title>Uh-oh</title>
+  <title>uh-oh</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Favicon -->
@@ -17,67 +18,209 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <div class="card">
+<div class="card">
 
-    <!-- STAGE 1 -->
-    <div id="stage1">
-      <h1>Hey you 💙</h1>
-    
-      <p>
-        I’ve been meaning to ask you something...<br />
-        Will you go with me on a<br />
-        <b>date :) ?</b>
-      </p>
-    
-      <img
-        id="stage1-img"
-        class="main-img"
-        src="https://i.pinimg.com/originals/c6/da/1e/c6da1e3d99754078ad09f0202273a8cf.png"
-        alt="Cute Stitch"
-      />
-    
-      <div class="buttons">
-        <button id="yes">Yes 🥹</button>
-        <button id="no">No 😭</button>
-      </div>
+
+  <!-- ================================= -->
+  <!-- STAGE 1 — ORIGINAL (UNCHANGED) -->
+  <!-- ================================= -->
+
+  <div id="stage1">
+
+    <h1>Hey you 💙</h1>
+
+    <p>
+      I’ve been meaning to ask you something...<br>
+      Will you go with me on a<br>
+      <b>date :) ?</b>
+    </p>
+
+    <img
+      id="stage1-img"
+      class="main-img"
+      src="https://i.pinimg.com/originals/c6/da/1e/c6da1e3d99754078ad09f0202273a8cf.png"
+      alt="Cute Stitch"
+    >
+
+    <div class="buttons">
+
+      <button id="yes">
+        Yes 🥹
+      </button>
+
+      <button id="no">
+        No 😭
+      </button>
+
     </div>
 
-    <!-- STAGE 2 -->
-    <div id="stage2" class="hidden">
-      <p class="hint">To get this, click the button below 👀</p>
+  </div>
+
+
+
+  <!-- ================================= -->
+  <!-- STAGE MEMORY — OLD STORY PRESERVED -->
+  <!-- ================================= -->
+
+  <div id="stageMemory" class="hidden">
+
+
+    <!-- OLD STAGE 2 -->
+
+    <div id="memory-stage2">
+
+      <p class="hint">
+        To get this, click the button below 👀
+      </p>
 
       <img
         class="main-img"
         src="https://sa.adanione.com/-/media/Foundation/Adani/Dutyfree/ProductImages/Liquor/Liqueur/baileys/02A01211/1_02A01211.jpg"
         alt="Baileys"
-      />
+      >
 
       <div class="buttons">
-        <button id="yes2">Haa theek h 🙃</button>
-        <button id="daaru">Daaru ke liye kuch bhi 🍻</button>
+
+        <button onclick="goToStage('memory-stage3')">
+          Haa theek h 🙃
+        </button>
+
+        <button>
+          Daaru ke liye kuch bhi 🍻
+        </button>
+
       </div>
+
     </div>
 
-    <!-- STAGE 3 -->
-    <div id="stage3" class="hidden">
-      <h1>LMAOOOO 😭💀<br />YAYYYY 💙</h1>
+
+    <!-- OLD STAGE 3 -->
+
+    <div id="memory-stage3" class="hidden">
+
+      <h1>
+        LMAOOOO 😭💀<br>
+        YAYYYY 💙
+      </h1>
 
       <img
         class="main-img"
         src="https://i.pinimg.com/originals/1f/aa/1c/1faa1c5e7f03267b520350b950a1d3e1.gif"
         alt="Laughing Stitch"
-      />
+      >
 
-      <p>Apni biopic ka naam Nashedi No.1 rakhna 😭</p>
+      <p>
+        Apni biopic ka naam Nashedi No.1 rakhna 😭
+      </p>
+
+      <button onclick="goToStage('stage2')">
+        back :)
+      </button>
+
     </div>
+
 
   </div>
 
-  <!-- JS -->
-  <script src="index.js"></script>
+
+
+  <!-- ================================= -->
+  <!-- STAGE 2 — DATE SELECTION -->
+  <!-- ================================= -->
+
+  <div id="stage2" class="hidden">
+
+
+    <h1>
+      When should we go? 💙
+    </h1>
+
+
+    <img
+      id="date-img"
+      class="main-img"
+      src="https://i.pinimg.com/originals/66/a4/4e/66a44e7a3fc3ac305a2983f7b86fb047.png"
+      alt="Choose date"
+    >
+
+
+    <p id="date-text">
+      pick carefully 👀
+    </p>
+
+
+
+    <div class="date-options">
+
+
+      <button
+        class="date-btn"
+        data-img="https://i.pinimg.com/originals/46/7d/b3/467db334bc0795ad62c25cf139a13989.gif"
+        data-text="2 days 2 longggg!"
+      >
+        15th Feb
+      </button>
+
+
+
+      <button
+        class="date-btn"
+        data-img="https://i.pinimg.com/originals/16/96/f5/1696f596624f3e950da72b01490c7d27.gif"
+        data-text="idk howwww we will tho? but best bday gift if we do :)"
+      >
+        17th Feb 👀
+      </button>
+
+
+
+      <button
+        class="date-btn"
+        data-img="https://i.pinimg.com/1200x/6b/c7/2c/6bc72cb41991ea6c0f51d18681557922.jpg"
+        data-text="too long a waittttt!"
+      >
+        22nd Feb
+      </button>
+
+
+
+      <button
+        class="date-btn"
+        data-img="https://i.pinimg.com/originals/bf/cc/b7/bfccb713592884a0f466f3495fcbce58.gif"
+        data-text="call krke bata de, itna i can't code :)))"
+      >
+        Custom
+      </button>
+
+
+    </div>
+
+
+
+    <!-- MEMORY ACCESS BUTTON -->
+
+    <img
+      id="memoryBtn"
+      class="memory-btn"
+      src="https://i.pinimg.com/1200x/d8/5b/42/d85b42154f87f27c3d271c211de194b5.jpg"
+      alt="Revisit memory"
+      title="revisit memory"
+    >
+
+
+  </div>
+
+
+
+</div>
+
+
+
+<script src="index.js"></script>
+
 </body>
 </html>
