@@ -1,37 +1,60 @@
-// ===============================
+// =====================================
 // STAGE REFERENCES
-// ===============================
+// =====================================
 
 const stageMain = document.getElementById("stageMain");
 const stageMemory = document.getElementById("stageMemory");
 
-
-// ===============================
-// MEMORY PORTAL NAVIGATION
-// ===============================
-
 const memoryPortal = document.getElementById("memoryPortal");
-const backToMain = document.getElementById("backToMain");
+const backPortal = document.getElementById("backPortal");
+
+
+// =====================================
+// CINEMATIC TRANSITION SYSTEM
+// =====================================
+
+function switchStage(fromStage, toStage) {
+
+  fromStage.classList.remove("stage-visible");
+  fromStage.classList.add("fade-out");
+
+  setTimeout(() => {
+
+    fromStage.classList.add("hidden");
+    fromStage.classList.remove("fade-out");
+
+    toStage.classList.remove("hidden");
+
+    requestAnimationFrame(() => {
+      toStage.classList.add("stage-visible");
+    });
+
+  }, 450);
+
+}
+
+
+// portal → chaos
 
 memoryPortal.addEventListener("click", () => {
 
-  stageMain.classList.add("hidden");
-  stageMemory.classList.remove("hidden");
+  switchStage(stageMain, stageMemory);
 
 });
 
 
-backToMain.addEventListener("click", () => {
+// chaos → portal
 
-  stageMemory.classList.add("hidden");
-  stageMain.classList.remove("hidden");
+backPortal.addEventListener("click", () => {
+
+  switchStage(stageMemory, stageMain);
 
 });
 
 
-// ===============================
+// =====================================
 // DATE SELECTION CLICK LOGIC
-// ===============================
+// =====================================
 
 const dateImg = document.getElementById("date-img");
 const dateText = document.getElementById("date-text");
@@ -61,84 +84,91 @@ dateButtons.forEach(btn => {
 });
 
 
-// ===============================
-// ===============================
-// ORIGINAL CHAOS LOGIC PRESERVED
-// ===============================
-// ===============================
+// =====================================
+// MEMORY CHAOS SITE LOGIC
+// =====================================
 
-
-// ORIGINAL STAGE REFERENCES
+// stage refs
 
 const memoryStage1 = document.getElementById("memory-stage1");
 const memoryStage2 = document.getElementById("memory-stage2");
 const memoryStage3 = document.getElementById("memory-stage3");
 
+// buttons
 
-// ORIGINAL BUTTONS
+const memoryYes = document.getElementById("memory-yes");
+const memoryNo = document.getElementById("memory-no");
 
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-const daaruBtn = document.getElementById("daaru");
-const yesBtn2 = document.getElementById("yes2");
+const memoryYes2 = document.getElementById("memory-yes2");
+const memoryDaaru = document.getElementById("memory-daaru");
+
+// image
+
+const memoryStage1Img =
+  document.getElementById("memory-stage1-img");
 
 
-// ORIGINAL IMAGE
-
-const stage1Img = document.getElementById("stage1-img");
-
-
+// =====================================
 // DEVICE DETECTION
+// =====================================
 
 const isTouchDevice =
   "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
 
-// DESKTOP STATE
+// =====================================
+// DESKTOP MOVE DETECTION
+// =====================================
 
 let userHasMoved = false;
 
-if (!isTouchDevice) {
+document.addEventListener("mousemove", () => {
 
-  document.addEventListener(
-    "mousemove",
-    () => {
-      userHasMoved = true;
-    },
-    { once: true }
-  );
+  userHasMoved = true;
 
-}
+}, { once: true });
 
 
+// =====================================
 // MOBILE STATE
+// =====================================
 
 let noTouchAttempts = 0;
 const MAX_MOBILE_ESCAPES = 5;
 
 
+// =====================================
 // DESKTOP CLICK STATE
+// =====================================
 
 let desktopNoClicks = 0;
 
 
+// =====================================
 // IMAGE STATE
+// =====================================
 
 let cryImageShown = false;
 
 
-// MOBILE TAUNTS
+// =====================================
+// MOBILE TEASE TEXTS
+// =====================================
 
-const noTeaseTexts = [
+const teaseTexts = [
+
   "ayyo 🙁",
   "itna kya 🥸",
   "matlab aisa",
   "rulayegi kya 😭",
   "ouch 🫠"
+
 ];
 
 
+// =====================================
 // UTILITIES
+// =====================================
 
 function vibrateOnEscape() {
 
@@ -158,18 +188,19 @@ function freezePosition(btn) {
   btn.style.position = "fixed";
   btn.style.left = rect.left + "px";
   btn.style.top = rect.top + "px";
-  btn.style.zIndex = 1000;
 
   btn.dataset.escaped = "true";
 
 }
 
 
+// =====================================
 // DESKTOP TEASE ESCAPE
+// =====================================
 
 function teaseEscape(btn, x, y) {
 
-  if (!btn || !userHasMoved) return;
+  if (!userHasMoved) return;
 
   freezePosition(btn);
 
@@ -191,29 +222,17 @@ function teaseEscape(btn, x, y) {
   let newX = rect.left - dx * moveDistance;
   let newY = rect.top - dy * moveDistance;
 
-  const padding = 10;
-
-  newX = Math.max(
-    padding,
-    Math.min(window.innerWidth - rect.width - padding, newX)
-  );
-
-  newY = Math.max(
-    padding,
-    Math.min(window.innerHeight - rect.height - padding, newY)
-  );
-
   btn.style.left = `${newX}px`;
   btn.style.top = `${newY}px`;
 
 }
 
 
+// =====================================
 // MOBILE RANDOM ESCAPE
+// =====================================
 
-function randomEscape(btn, attempts) {
-
-  if (!btn) return;
+function randomEscape(btn) {
 
   freezePosition(btn);
 
@@ -221,8 +240,13 @@ function randomEscape(btn, attempts) {
 
   const padding = 20;
 
-  let x = Math.random() * (window.innerWidth - btn.offsetWidth - padding);
-  let y = Math.random() * (window.innerHeight - btn.offsetHeight - padding);
+  let x =
+    Math.random() *
+    (window.innerWidth - btn.offsetWidth - padding);
+
+  let y =
+    Math.random() *
+    (window.innerHeight - btn.offsetHeight - padding);
 
   btn.style.left = `${x}px`;
   btn.style.top = `${y}px`;
@@ -230,137 +254,116 @@ function randomEscape(btn, attempts) {
 }
 
 
+// =====================================
 // NO BUTTON LOGIC
+// =====================================
 
-if (noBtn) {
+if (!isTouchDevice) {
 
-  if (!isTouchDevice) {
+  memoryNo.addEventListener("mousemove", (e) =>
+    teaseEscape(memoryNo, e.clientX, e.clientY)
+  );
 
-    noBtn.addEventListener("mousemove", (e) =>
-      teaseEscape(noBtn, e.clientX, e.clientY)
-    );
+  memoryNo.addEventListener("mouseenter", (e) =>
+    teaseEscape(memoryNo, e.clientX, e.clientY)
+  );
 
-    noBtn.addEventListener("mouseenter", (e) =>
-      teaseEscape(noBtn, e.clientX, e.clientY)
-    );
-
-  }
-
-  else {
-
-    noBtn.addEventListener("touchstart", (e) => {
-
-      if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
-
-        e.preventDefault();
-
-        noTouchAttempts++;
-
-        const tease =
-          noTeaseTexts[
-            Math.min(noTouchAttempts - 1, noTeaseTexts.length - 1)
-          ];
-
-        noBtn.textContent = tease;
-
-        if (tease === "rulayegi kya 😭" && !cryImageShown) {
-
-          cryImageShown = true;
-
-          stage1Img.style.opacity = 0;
-
-          setTimeout(() => {
-
-            stage1Img.src =
-              "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
-
-            stage1Img.style.opacity = 1;
-
-          }, 150);
-
-        }
-
-        randomEscape(noBtn, noTouchAttempts);
-
-      }
-
-    });
-
-  }
+}
 
 
-  noBtn.addEventListener("click", () => {
+memoryNo.addEventListener("touchstart", (e) => {
 
-    if (!isTouchDevice) {
+  if (noTouchAttempts < MAX_MOBILE_ESCAPES) {
 
-      desktopNoClicks++;
+    e.preventDefault();
 
-      if (desktopNoClicks === 1) {
+    noTouchAttempts++;
 
-        noBtn.textContent = "aisa? 🥺";
+    const tease =
+      teaseTexts[
+        Math.min(noTouchAttempts - 1, teaseTexts.length - 1)
+      ];
 
-        stage1Img.style.opacity = 0;
+    memoryNo.textContent = tease;
 
-        setTimeout(() => {
+    if (tease === "rulayegi kya 😭" && !cryImageShown) {
 
-          stage1Img.src =
-            "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
+      cryImageShown = true;
 
-          stage1Img.style.opacity = 1;
+      memoryStage1Img.style.opacity = 0;
 
-        }, 150);
+      setTimeout(() => {
 
-        return;
+        memoryStage1Img.src =
+          "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
 
-      }
+        memoryStage1Img.style.opacity = 1;
+
+      }, 150);
 
     }
 
-    memoryStage1.classList.add("hidden");
-    memoryStage2.classList.remove("hidden");
+    randomEscape(memoryNo);
 
-  });
+  }
 
-}
-
-
-// YES BUTTON
-
-if (yesBtn) {
-
-  yesBtn.addEventListener("click", () => {
-
-    memoryStage1.classList.add("hidden");
-    memoryStage2.classList.remove("hidden");
-
-  });
-
-}
+});
 
 
-// DAARU BUTTON
+// desktop click emotional beat
 
-if (daaruBtn) {
+memoryNo.addEventListener("click", () => {
 
-  daaruBtn.addEventListener("click", () => {
+  desktopNoClicks++;
 
-    memoryStage2.classList.add("hidden");
-    memoryStage3.classList.remove("hidden");
+  if (desktopNoClicks === 1) {
 
-  });
+    memoryNo.textContent = "aisa? 🥺";
 
-}
+    memoryStage1Img.style.opacity = 0;
+
+    setTimeout(() => {
+
+      memoryStage1Img.src =
+        "https://i.pinimg.com/originals/76/58/05/76580511f5c794b64bdba89e86a019ca.gif";
+
+      memoryStage1Img.style.opacity = 1;
+
+    }, 150);
+
+    return;
+
+  }
+
+  memoryStage1.classList.add("hidden");
+  memoryStage2.classList.remove("hidden");
+
+});
 
 
-// YES2 BUTTON
+// =====================================
+// YES BUTTONS
+// =====================================
 
-if (yesBtn2) {
+memoryYes.addEventListener("click", () => {
 
-  yesBtn2.addEventListener("click", () => {
+  memoryStage1.classList.add("hidden");
+  memoryStage2.classList.remove("hidden");
 
-    memoryStage2.classList.add("hidden");
-    memoryStage3.classList.remove("hidden");
+});
 
-  });
 
-}
+memoryYes2.addEventListener("click", () => {
+
+  memoryStage2.classList.add("hidden");
+  memoryStage3.classList.remove("hidden");
+
+});
+
+
+memoryDaaru.addEventListener("click", () => {
+
+  memoryStage2.classList.add("hidden");
+  memoryStage3.classList.remove("hidden");
+
+});
