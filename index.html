@@ -2,21 +2,24 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <title>Uh-oh</title>
+  <title>uh-oh</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Favicon -->
+  <!-- favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
 
-  <!-- Fonts -->
+  <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
+  <!-- css -->
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 
@@ -26,10 +29,10 @@
 
 
   <!-- ================================= -->
-  <!-- MAIN PAGE (DATE SELECTION) -->
+  <!-- MAIN STAGE (DATE SELECTION) -->
   <!-- ================================= -->
 
-  <div id="stageMain">
+  <div id="stageMain" class="stage stage-visible">
 
     <h1>When should we go? 💙</h1>
 
@@ -39,6 +42,7 @@
       src="https://i.pinimg.com/originals/66/a4/4e/66a44e7a3fc3ac305a2983f7b86fb047.png"
       alt="Choose date"
     >
+
 
     <p id="date-text">
       pick carefully 👀
@@ -88,7 +92,7 @@
       <img
         src="https://i.pinimg.com/1200x/d8/5b/42/d85b42154f87f27c3d271c211de194b5.jpg"
         class="memory-btn"
-        alt="Memory"
+        alt="revisit memory"
       >
 
       <p class="memory-text">
@@ -103,86 +107,109 @@
 
 
   <!-- ================================= -->
-  <!-- OLD WEBSITE PRESERVED -->
+  <!-- MEMORY STAGE (OLD SITE PRESERVED) -->
   <!-- ================================= -->
 
-  <div id="stageMemory" class="hidden">
+  <div id="stageMemory" class="stage hidden">
 
 
-    <!-- ORIGINAL STAGE 1 -->
+    <!-- OLD STAGE 1 -->
 
     <div id="memory-stage1">
 
       <h1>Hey you 💙</h1>
 
       <p>
-        I’ve been meaning to ask you something...<br />
-        Will you go with me on a<br />
+        I’ve been meaning to ask you something...<br>
+        Will you go with me on a<br>
         <b>date :) ?</b>
       </p>
 
       <img
-        id="stage1-img"
+        id="memory-stage1-img"
         class="main-img"
         src="https://i.pinimg.com/originals/c6/da/1e/c6da1e3d99754078ad09f0202273a8cf.png"
-        alt="Cute Stitch"
-      />
+      >
 
       <div class="buttons">
-        <button id="yes">Yes 🥹</button>
-        <button id="no">No 😭</button>
+
+        <button id="memory-yes">
+          Yes 🥹
+        </button>
+
+        <button id="memory-no">
+          No 😭
+        </button>
+
       </div>
 
     </div>
 
 
 
-    <!-- ORIGINAL STAGE 2 -->
+    <!-- OLD STAGE 2 -->
 
     <div id="memory-stage2" class="hidden">
 
-      <p class="hint">To get this, click the button below 👀</p>
+      <p class="hint">
+        To get this, click the button below 👀
+      </p>
 
       <img
         class="main-img"
         src="https://sa.adanione.com/-/media/Foundation/Adani/Dutyfree/ProductImages/Liquor/Liqueur/baileys/02A01211/1_02A01211.jpg"
-        alt="Baileys"
-      />
+      >
 
       <div class="buttons">
-        <button id="yes2">Haa theek h 🙃</button>
-        <button id="daaru">Daaru ke liye kuch bhi 🍻</button>
+
+        <button id="memory-yes2">
+          Haa theek h 🙃
+        </button>
+
+        <button id="memory-daaru">
+          Daaru ke liye kuch bhi 🍻
+        </button>
+
       </div>
 
     </div>
 
 
 
-    <!-- ORIGINAL STAGE 3 -->
+    <!-- OLD STAGE 3 -->
 
     <div id="memory-stage3" class="hidden">
 
-      <h1>LMAOOOO 😭💀<br />YAYYYY 💙</h1>
+      <h1>
+        LMAOOOO 😭💀<br>
+        YAYYYY 💙
+      </h1>
 
       <img
         class="main-img"
         src="https://i.pinimg.com/originals/1f/aa/1c/1faa1c5e7f03267b520350b950a1d3e1.gif"
-        alt="Laughing Stitch"
-      />
+      >
 
-      <p>Apni biopic ka naam Nashedi No.1 rakhna 😭</p>
+      <p>
+        Apni biopic ka naam Nashedi No.1 rakhna 😭
+      </p>
 
     </div>
 
 
 
-    <!-- BACK BUTTON -->
+    <!-- BACK PORTAL -->
 
-    <div style="margin-top:20px;">
+    <div class="memory-portal" id="backPortal">
 
-      <button id="backToMain">
-        back :)
-      </button>
+      <img
+        src="https://i.pinimg.com/1200x/d8/5b/42/d85b42154f87f27c3d271c211de194b5.jpg"
+        class="memory-btn"
+      >
+
+      <p class="memory-text">
+        return to present :)
+      </p>
 
     </div>
 
@@ -192,6 +219,7 @@
 
 
 </div>
+
 
 
 <script src="index.js"></script>
