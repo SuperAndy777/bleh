@@ -70,9 +70,9 @@ dateButtons.forEach(btn => {
 
 // ORIGINAL STAGE REFERENCES
 
-const stage1 = document.getElementById("stage1");
-const stage2 = document.getElementById("stage2");
-const stage3 = document.getElementById("stage3");
+const memoryStage1 = document.getElementById("memory-stage1");
+const memoryStage2 = document.getElementById("memory-stage2");
+const memoryStage3 = document.getElementById("memory-stage3");
 
 
 // ORIGINAL BUTTONS
@@ -316,8 +316,8 @@ if (noBtn) {
 
     }
 
-    stage1.classList.add("hidden");
-    stage2.classList.remove("hidden");
+    memoryStage1.classList.add("hidden");
+    memoryStage2.classList.remove("hidden");
 
   });
 
@@ -330,8 +330,8 @@ if (yesBtn) {
 
   yesBtn.addEventListener("click", () => {
 
-    stage1.classList.add("hidden");
-    stage2.classList.remove("hidden");
+    memoryStage1.classList.add("hidden");
+    memoryStage2.classList.remove("hidden");
 
   });
 
@@ -344,8 +344,8 @@ if (daaruBtn) {
 
   daaruBtn.addEventListener("click", () => {
 
-    stage2.classList.add("hidden");
-    stage3.classList.remove("hidden");
+    memoryStage2.classList.add("hidden");
+    memoryStage3.classList.remove("hidden");
 
   });
 
@@ -358,8 +358,8 @@ if (yesBtn2) {
 
   yesBtn2.addEventListener("click", () => {
 
-    stage2.classList.add("hidden");
-    stage3.classList.remove("hidden");
+    memoryStage2.classList.add("hidden");
+    memoryStage3.classList.remove("hidden");
 
   });
 
