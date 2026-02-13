@@ -178,7 +178,7 @@ h1 {
 
   align-items: center;
 
-  gap: 6px;
+  gap: 10px;   /* increased spacing */
 
   text-decoration: none;
 
@@ -200,9 +200,11 @@ h1 {
 
 .memory-btn {
 
-  width: 60px;
+  width: 42px;   /* smaller */
 
   border-radius: 12px;
+
+  margin-bottom: 6px;   /* adds space between image and text */
 
 }
 
