@@ -1,138 +1,136 @@
-document.addEventListener("DOMContentLoaded", function () {
+// ===============================
+// ELEMENTS
+// ===============================
 
-  /* ===============================
-     ELEMENTS
-  =============================== */
+const stages = document.querySelectorAll(".stage");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const mePagalBtn = document.getElementById("mePagalBtn");
+const bloodOverlay = document.getElementById("bloodOverlay");
 
-  const stageMain = document.getElementById("stage-main");
-  const stageNo = document.getElementById("stage-no-result");
-  const stageYes = document.getElementById("stage-yes-burst");
-  const stageFinal = document.getElementById("stage-final");
+let noClickCount = 0;
+let noHoverActive = true;
 
-  const btnYes = document.getElementById("btn-yes");
-  const btnNo = document.getElementById("btn-no");
-  const btnRed = document.getElementById("btn-red");
+const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-  let noClickCount = 0;
+// ===============================
+// STAGE SWITCH
+// ===============================
 
-  /* ===============================
-     YES CLICK
-  =============================== */
+function showStage(id) {
+  stages.forEach(stage => stage.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
 
-  btnYes.addEventListener("click", function () {
+// ===============================
+// NO BUTTON ESCAPE LOGIC
+// ===============================
 
-    createBloodExplosion();
+const noTexts = [
+  "No",
+  "Haww",
+  "Evil :(",
+  "pls?",
+  "arey",
+  "stoppp",
+  "ok fine"
+];
 
-    stageMain.classList.add("hidden");
-    stageYes.classList.remove("hidden");
+function moveNoButton() {
+  const padding = 50;
 
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
+
+  noBtn.style.position = "fixed";
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
+}
+
+function shrinkNoButton() {
+  const scale = Math.max(0.4, 1 - noClickCount * 0.12);
+  noBtn.style.transform = `scale(${scale})`;
+}
+
+// Desktop: run away on hover
+if (!isTouch) {
+  noBtn.addEventListener("mouseenter", () => {
+    if (noHoverActive) moveNoButton();
   });
+}
 
-  /* ===============================
-     NO CLICK (Shrinks + Moves)
-  =============================== */
-
-  btnNo.addEventListener("click", function () {
-
-    noClickCount++;
-
-    if (noClickCount === 1) {
-      btnNo.textContent = "Haww";
-      shrinkButton(btnNo);
-      moveRandom(btnNo);
-    }
-
-    else if (noClickCount === 2) {
-      btnNo.textContent = "Evil :(";
-      shrinkButton(btnNo);
-      moveRandom(btnNo);
-    }
-
-    else {
-      stageMain.classList.add("hidden");
-      stageNo.classList.remove("hidden");
-    }
-
+// Mobile: run away on touch
+if (isTouch) {
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNoButton();
   });
+}
 
-  /* ===============================
-     RED BUTTON → FINAL
-  =============================== */
+// Click escalation
+noBtn.addEventListener("click", () => {
 
-  btnRed.addEventListener("click", function () {
+  noClickCount++;
 
-    stageYes.classList.add("hidden");
-    stageFinal.classList.remove("hidden");
-
-  });
-
-  /* ===============================
-     SHRINK FUNCTION
-  =============================== */
-
-  function shrinkButton(button) {
-    const currentSize = parseFloat(window.getComputedStyle(button).fontSize);
-    button.style.fontSize = (currentSize - 4) + "px";
-    button.style.padding = "6px 20px";
+  if (noClickCount < noTexts.length) {
+    noBtn.textContent = noTexts[noClickCount];
   }
 
-  /* ===============================
-     RANDOM MOVE FUNCTION
-  =============================== */
+  shrinkNoButton();
+  moveNoButton();
 
-  function moveRandom(button) {
-
-    button.style.position = "absolute";
-
-    const maxX = window.innerWidth - button.offsetWidth - 50;
-    const maxY = window.innerHeight - button.offsetHeight - 50;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    button.style.left = randomX + "px";
-    button.style.top = randomY + "px";
+  // After too much resistance → force surrender
+  if (noClickCount > 6) {
+    noHoverActive = false;
+    noBtn.style.opacity = "0";
+    setTimeout(() => {
+      showStage("stage2");
+    }, 400);
   }
+});
 
-  /* ===============================
-     CINEMATIC BLOOD EXPLOSION
-  =============================== */
+// ===============================
+// YES CINEMATIC MODE
+// ===============================
 
-  function createBloodExplosion() {
+yesBtn.addEventListener("click", () => {
 
-    for (let i = 0; i < 15; i++) {
+  // Flash red overlay
+  bloodOverlay.style.opacity = "1";
 
-      const blood = document.createElement("div");
-      blood.classList.add("blood-splash");
+  // Screen shake
+  document.body.classList.add("screen-shake");
 
-      const size = Math.random() * 80 + 40;
+  // Darkening effect
+  document.body.style.transition = "background 0.6s ease";
+  document.body.style.background = "#2b0000";
 
-      blood.style.width = size + "px";
-      blood.style.height = size + "px";
-      blood.style.background = "radial-gradient(circle at center, #7a0000 30%, #3b0000 70%)";
-      blood.style.borderRadius = "50%";
+  setTimeout(() => {
 
-      blood.style.left = Math.random() * window.innerWidth + "px";
-      blood.style.top = Math.random() * window.innerHeight + "px";
+    bloodOverlay.style.opacity = "0";
+    document.body.classList.remove("screen-shake");
+    document.body.style.background = "white";
 
-      blood.style.opacity = "0";
-      blood.style.transition = "all 1s ease";
+    showStage("stage3");
 
-      document.body.appendChild(blood);
+  }, 900);
+});
 
-      setTimeout(() => {
-        blood.style.opacity = "0.85";
-        blood.style.transform = "scale(1.2)";
-      }, 50);
+// ===============================
+// ME PAGAL → FINAL
+// ===============================
 
-      setTimeout(() => {
-        blood.style.opacity = "0";
-      }, 1200);
+mePagalBtn.addEventListener("click", () => {
 
-      setTimeout(() => {
-        blood.remove();
-      }, 2000);
-    }
-  }
+  // Soft dramatic fade
+  document.body.style.transition = "opacity 0.4s ease";
+  document.body.style.opacity = "0.7";
 
+  setTimeout(() => {
+    document.body.style.opacity = "1";
+    showStage("stage4");
+  }, 300);
 });
