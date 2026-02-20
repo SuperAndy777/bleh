@@ -95,19 +95,18 @@ body {
 
 /* ORIGINAL STITCH */
 
+.memory-anchor {
+  margin-top: 55px; /* pushes it lower */
+}
+
 .memory-anchor img {
-  width: 50px;
-  margin-bottom: 8px;
+  width: 38px;  /* smaller */
+  margin-bottom: 6px;
 }
 
 .memory-anchor p {
+  font-size: 13px;
   color: #6b8bbf;
-  font-size: 14px;
-  text-decoration: none;
-}
-
-.memory-anchor a {
-  text-decoration: none;
 }
 
 /* =========================
