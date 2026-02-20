@@ -1,3 +1,4 @@
+const memoryCard = document.querySelector(".memory-card");
 const memories = [
   {
     image: "https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg",
@@ -52,7 +53,16 @@ nextDayBtn.addEventListener("click", () => {
 });
 
 function updateMemory() {
-  dayNumber.textContent = currentDay + 1;
-  memoryImage.src = memories[currentDay].image;
-  memoryText.textContent = memories[currentDay].text;
+
+  memoryCard.classList.add("flip");
+
+  setTimeout(() => {
+
+    dayNumber.textContent = currentDay + 1;
+    memoryImage.src = memories[currentDay].image;
+    memoryText.textContent = memories[currentDay].text;
+
+    memoryCard.classList.remove("flip");
+
+  }, 200);
 }
