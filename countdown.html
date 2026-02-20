@@ -8,74 +8,52 @@
   <link rel="icon" type="image/png" href="favicon2.png">
   <link rel="stylesheet" href="countdown.css">
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <div class="portal-background">
+<div class="page-container">
 
-    <div class="countdown-card">
+  <div class="portal">
 
-      <h1 class="title">
-        countdown to our first date 💙
-      </h1>
+    <h1>countdown to our first date 💙</h1>
+    <p class="date">22 February 2026</p>
 
-      <p class="date-text">
-        22 February 2026
+    <!-- NEW DAY SYSTEM -->
+    <div class="day-counter">
+
+      <div class="day-box label-box">Day</div>
+      <div class="day-box number-box" id="dayNumber">1</div>
+
+      <button class="arrow-circle" id="nextDay">→</button>
+
+    </div>
+
+    <div class="memory-card">
+
+      <img id="memoryImage"
+        src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg">
+
+      <p id="memoryText">
+        Valentines pe akela 😭
       </p>
 
-      <!-- DAY NAVIGATION (replaces timer) -->
-      <div class="day-navigation">
+    </div>
 
-        <div class="day-box static-box">
-          Day
-        </div>
-
-        <div class="day-box" id="day-number">
-          1
-        </div>
-
-        <button class="arrow-btn" id="next-btn">
-          →
-        </button>
-
-      </div>
-
-      <!-- MEMORY SECTION -->
-      <div class="memory-section">
-
-        <img 
-          id="memory-image"
-          src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg"
-          alt="memory"
-        >
-
-        <p id="memory-text">
-          Valentines pe akela 😭
-        </p>
-
-      </div>
-
-      <!-- Bottom stitch memory link -->
-      <div class="memory-link">
-        <a href="stage2.html">
-          <img 
-            src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
-            alt="small stitch"
-          >
-          <span>where you made me wait :')</span>
-        </a>
-      </div>
-
+    <!-- ORIGINAL LITTLE STITCH -->
+    <div class="memory-anchor">
+      <a href="stage2.html">
+        <img src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg">
+        <p>where you made me wait :')</p>
+      </a>
     </div>
 
   </div>
 
-  <script src="countdown.js"></script>
+</div>
+
+<script src="countdown.js"></script>
 
 </body>
 </html>
