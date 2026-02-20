@@ -1,193 +1,169 @@
-/* ===================================== */
-/* BASE */
-/* ===================================== */
+/* ===============================
+   BASE
+================================= */
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  background: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #dbe9f6, #c5d9ec);
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-/* ===================================== */
-/* CONTAINER */
-/* ===================================== */
-
-.countdown-container {
+.page-container {
   width: 100%;
-  max-width: 520px;
-  padding: 20px;
+  max-width: 420px;
+  text-align: center;
+  padding: 40px 20px;
 }
 
 
-/* ===================================== */
-/* CARD */
-/* ===================================== */
+/* ===============================
+   CARD
+================================= */
 
-.day-card {
+.card {
   background: #ffffff;
-  border: 1px solid #eee;
+  border-radius: 28px;
   padding: 40px 30px;
-  border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
   position: relative;
-  perspective: 1000px;   /* IMPORTANT */
   overflow: hidden;
 }
 
-
-/* ===================================== */
-/* PAGE INNER (3D LAYER) */
-/* ===================================== */
-
-.page-inner {
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  transform-origin: left center;
-  transform-style: preserve-3d;
-  position: relative;
-}
-
-.page-inner.flip {
-  transform: rotateY(-20deg);
-  opacity: 0.4;
-}
-
-
-/* ===================================== */
-/* SHADOW SWEEP */
-/* ===================================== */
-
-.page-inner::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(0,0,0,0.15),
-    transparent 60%
-  );
-  opacity: 0;
-  pointer-events: none;
-}
-
-.page-inner.flip::after {
-  animation: shadowMove 0.4s ease forwards;
-}
-
-@keyframes shadowMove {
-  0% { opacity: 0; }
-  50% { opacity: 0.25; }
-  100% { opacity: 0; }
-}
-
-
-/* ===================================== */
-/* CONTENT */
-/* ===================================== */
-
-#day-label {
-  font-family: "Playfair Display", serif;
+.title {
+  font-family: 'Playfair Display', serif;
   font-size: 28px;
-  margin-bottom: 20px;
+  color: #2c4a7c;
+  margin-bottom: 25px;
 }
 
-#day-image {
-  width: 100%;
-  max-height: 280px;
-  object-fit: contain;
-  border-radius: 14px;
-  margin-bottom: 20px;
-}
-
-#day-text {
+.day-label {
   font-size: 16px;
-  margin-bottom: 30px;
+  color: #3a3a3a;
+  margin-bottom: 18px;
 }
 
 
-/* ===================================== */
-/* BUTTON */
-/* ===================================== */
+/* ===============================
+   ARROW BUTTON
+================================= */
 
-.arrow-btn {
-  background: #2b6cb0;
+.next-btn {
+  background: #4c78b8;
   color: white;
   border: none;
-  font-size: 18px;
-  padding: 10px 18px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.arrow-btn:hover {
-  transform: scale(1.1);
-}
-
-
-/* ===================================== */
-/* FINAL MESSAGE */
-/* ===================================== */
-
-.final-message {
-  margin-top: 20px;
-  font-family: "Playfair Display", serif;
   font-size: 18px;
-  color: #b00020;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-bottom: 20px;
 }
 
-.hidden {
-  display: none;
+.next-btn:hover {
+  transform: scale(1.08);
+  background: #3b66a3;
 }
 
 
-/* ===================================== */
-/* MOBILE */
-/* ===================================== */
+/* ===============================
+   MEMORY BOX
+================================= */
 
-@media (max-width: 600px) {
+.memory-box {
+  perspective: 1000px;
+}
 
-  .day-card {
+.memory-img {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.memory-text {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+
+/* ===============================
+   PAGE FLIP EFFECT
+================================= */
+
+.flip {
+  animation: flipPage 0.6s ease;
+}
+
+@keyframes flipPage {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(90deg);
+    opacity: 0.4;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+
+/* ===============================
+   MEMORY ANCHOR
+================================= */
+
+.memory-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  text-decoration: none;
+}
+
+.mini-stitch {
+  width: 34px;
+  margin-bottom: 8px;
+}
+
+.mini-text {
+  font-size: 12px;
+  color: #4c78b8;
+}
+
+
+/* ===============================
+   MOBILE
+================================= */
+
+@media (max-width: 500px) {
+
+  .page-container {
+    padding: 30px 16px;
+  }
+
+  .card {
     padding: 30px 20px;
   }
 
-  #day-label {
+  .title {
     font-size: 22px;
   }
 
-  #day-text {
-    font-size: 14px;
+  .memory-img {
+    width: 220px;
   }
 
-}
-
-/* ===== Arrow Button Styling (Minimal) ===== */
-
-.arrow-btn {
-  background: #2b6cb0; /* match your theme blue */
-  color: white;
-  border: none;
-  font-size: 16px;
-  padding: 8px 14px;
-  border-radius: 50%;
-  cursor: pointer;
-  margin-left: 12px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.arrow-btn:hover {
-  transform: scale(1.1);
-}
-
-.arrow-btn:active {
-  transform: scale(0.95);
 }
