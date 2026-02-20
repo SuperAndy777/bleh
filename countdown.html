@@ -6,59 +6,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="icon" type="image/png" href="favicon2.png">
+  <link rel="stylesheet" href="countdown.css">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="countdown.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="page-container">
+  <div class="portal-background">
 
-  <div class="card">
+    <div class="countdown-card">
 
-    <h1 class="title">
-      countdown to our first date 💙
-    </h1>
+      <h1 class="title">
+        countdown to our first date 💙
+      </h1>
 
-    <div class="day-label">
-      Day <span id="day-number">1</span> memory
-    </div>
-
-    <button id="next-btn" class="next-btn">→</button>
-
-    <div class="memory-box" id="memory-box">
-
-      <img id="memory-img"
-        src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg"
-        class="memory-img"
-        alt="memory">
-
-      <p id="memory-text" class="memory-text">
-        Valentines pe akela 😭
+      <p class="date-text">
+        22 February 2026
       </p>
+
+      <!-- DAY NAVIGATION (replaces timer) -->
+      <div class="day-navigation">
+
+        <div class="day-box static-box">
+          Day
+        </div>
+
+        <div class="day-box" id="day-number">
+          1
+        </div>
+
+        <button class="arrow-btn" id="next-btn">
+          →
+        </button>
+
+      </div>
+
+      <!-- MEMORY SECTION -->
+      <div class="memory-section">
+
+        <img 
+          id="memory-image"
+          src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg"
+          alt="memory"
+        >
+
+        <p id="memory-text">
+          Valentines pe akela 😭
+        </p>
+
+      </div>
+
+      <!-- Bottom stitch memory link -->
+      <div class="memory-link">
+        <a href="stage2.html">
+          <img 
+            src="https://i.pinimg.com/736x/e5/10/7c/e5107c0e524884be3eef196d2aaf0162.jpg"
+            alt="small stitch"
+          >
+          <span>where you made me wait :')</span>
+        </a>
+      </div>
 
     </div>
 
   </div>
 
+  <script src="countdown.js"></script>
 
-  <!-- Memory Portal Back to Stage 4 -->
-  <a href="index.html" class="memory-anchor">
-    <img 
-      src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
-      class="mini-stitch"
-      alt="mini stitch">
-    <div class="mini-text">
-      where you made me wait :')
-    </div>
-  </a>
-
-</div>
-
-<script src="countdown.js"></script>
 </body>
 </html>
