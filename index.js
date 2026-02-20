@@ -1,239 +1,138 @@
-/* =========================================
-   BASE
-========================================= */
+document.addEventListener("DOMContentLoaded", function () {
 
-* {
-  box-sizing: border-box;
-}
+  /* ===============================
+     ELEMENTS
+  =============================== */
 
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  background: #ffffff;
-  color: #2b6cb0;
-}
+  const stageMain = document.getElementById("stage-main");
+  const stageNo = document.getElementById("stage-no-result");
+  const stageYes = document.getElementById("stage-yes-burst");
+  const stageFinal = document.getElementById("stage-final");
 
-/* =========================================
-   WRAPPER STRUCTURE
-========================================= */
+  const btnYes = document.getElementById("btn-yes");
+  const btnNo = document.getElementById("btn-no");
+  const btnRed = document.getElementById("btn-red");
 
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+  let noClickCount = 0;
 
-.content-area {
-  flex: 1;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 80px 60px;
-  position: relative;
-  z-index: 2;
-}
+  /* ===============================
+     YES CLICK
+  =============================== */
 
-/* =========================================
-   STAGES
-========================================= */
+  btnYes.addEventListener("click", function () {
 
-.stage {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-}
+    createBloodExplosion();
 
-.hidden {
-  display: none;
-}
+    stageMain.classList.add("hidden");
+    stageYes.classList.remove("hidden");
 
-/* =========================================
-   TEXT
-========================================= */
+  });
 
-.subtext {
-  font-size: 22px;
-  margin: 0;
-}
+  /* ===============================
+     NO CLICK (Shrinks + Moves)
+  =============================== */
 
-.pink {
-  font-size: 28px;
-  color: #e85d75;
-  margin: 8px 0 16px;
-}
+  btnNo.addEventListener("click", function () {
 
-.main-question {
-  font-family: "Playfair Display", serif;
-  font-size: 64px;
-  line-height: 1.15;
-  margin-bottom: 40px;
-}
+    noClickCount++;
 
-.red-text {
-  font-family: "Playfair Display", serif;
-  font-size: 60px;
-  color: #b00020;
-  text-align: center;
-}
+    if (noClickCount === 1) {
+      btnNo.textContent = "Haww";
+      shrinkButton(btnNo);
+      moveRandom(btnNo);
+    }
 
-/* =========================================
-   LAYOUT SIDES
-========================================= */
+    else if (noClickCount === 2) {
+      btnNo.textContent = "Evil :(";
+      shrinkButton(btnNo);
+      moveRandom(btnNo);
+    }
 
-.content-left {
-  flex: 1;
-}
+    else {
+      stageMain.classList.add("hidden");
+      stageNo.classList.remove("hidden");
+    }
 
-.content-right {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
+  });
 
-.side-gif {
-  width: 420px;
-  max-width: 100%;
-}
+  /* ===============================
+     RED BUTTON → FINAL
+  =============================== */
 
-.rounded-gif {
-  width: 420px;
-  max-width: 100%;
-  border-radius: 20px;
-}
+  btnRed.addEventListener("click", function () {
 
-.final-gif {
-  width: 450px;
-  max-width: 100%;
-}
+    stageYes.classList.add("hidden");
+    stageFinal.classList.remove("hidden");
 
-/* =========================================
-   BUTTONS
-========================================= */
+  });
 
-.button-area {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
+  /* ===============================
+     SHRINK FUNCTION
+  =============================== */
 
-button {
-  border: none;
-  cursor: pointer;
-  font-family: "Playfair Display", serif;
-  transition: all 0.25s ease;
-}
-
-.btn-yes {
-  background: #4f83d1;
-  color: white;
-  font-size: 48px;
-  padding: 22px 80px;
-  border-radius: 14px;
-}
-
-.btn-no {
-  background: #e84c4c;
-  color: white;
-  font-size: 18px;
-  padding: 8px 36px;
-  border-radius: 8px;
-}
-
-.btn-red {
-  background: #b00020;
-  color: white;
-  font-size: 46px;
-  padding: 20px 90px;
-  border-radius: 16px;
-}
-
-/* =========================================
-   MEMORY SECTION (NEVER FLOATS)
-========================================= */
-
-.memory-section {
-  width: 100%;
-  text-align: center;
-  padding: 40px 0 60px 0;
-  position: relative;
-  z-index: 2;
-}
-
-.memory-anchor {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-}
-
-.mini-stitch {
-  width: 36px;
-  margin-bottom: 8px;
-}
-
-.mini-text {
-  font-size: 12px;
-  color: #777;
-}
-
-/* =========================================
-   BLOOD CONTROL
-========================================= */
-
-.blood-splash {
-  position: fixed;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 900px) {
-
-  .content-area {
-    padding: 40px 20px;
+  function shrinkButton(button) {
+    const currentSize = parseFloat(window.getComputedStyle(button).fontSize);
+    button.style.fontSize = (currentSize - 4) + "px";
+    button.style.padding = "6px 20px";
   }
 
-  .stage {
-    flex-direction: column;
-    text-align: center;
-    gap: 28px;
+  /* ===============================
+     RANDOM MOVE FUNCTION
+  =============================== */
+
+  function moveRandom(button) {
+
+    button.style.position = "absolute";
+
+    const maxX = window.innerWidth - button.offsetWidth - 50;
+    const maxY = window.innerHeight - button.offsetHeight - 50;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    button.style.left = randomX + "px";
+    button.style.top = randomY + "px";
   }
 
-  .main-question {
-    font-size: 34px;
+  /* ===============================
+     CINEMATIC BLOOD EXPLOSION
+  =============================== */
+
+  function createBloodExplosion() {
+
+    for (let i = 0; i < 15; i++) {
+
+      const blood = document.createElement("div");
+      blood.classList.add("blood-splash");
+
+      const size = Math.random() * 80 + 40;
+
+      blood.style.width = size + "px";
+      blood.style.height = size + "px";
+      blood.style.background = "radial-gradient(circle at center, #7a0000 30%, #3b0000 70%)";
+      blood.style.borderRadius = "50%";
+
+      blood.style.left = Math.random() * window.innerWidth + "px";
+      blood.style.top = Math.random() * window.innerHeight + "px";
+
+      blood.style.opacity = "0";
+      blood.style.transition = "all 1s ease";
+
+      document.body.appendChild(blood);
+
+      setTimeout(() => {
+        blood.style.opacity = "0.85";
+        blood.style.transform = "scale(1.2)";
+      }, 50);
+
+      setTimeout(() => {
+        blood.style.opacity = "0";
+      }, 1200);
+
+      setTimeout(() => {
+        blood.remove();
+      }, 2000);
+    }
   }
 
-  .subtext {
-    font-size: 16px;
-  }
-
-  .pink {
-    font-size: 20px;
-  }
-
-  .btn-yes {
-    font-size: 26px;
-    padding: 14px 42px;
-  }
-
-  .btn-no {
-    font-size: 14px;
-    padding: 8px 24px;
-  }
-
-  .btn-red {
-    font-size: 28px;
-    padding: 16px 60px;
-  }
-
-  .side-gif,
-  .rounded-gif,
-  .final-gif {
-    width: 220px;
-  }
-
-}
+});
