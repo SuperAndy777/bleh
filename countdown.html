@@ -3,48 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <title>uh-oh</title>
-  <link rel="icon" type="image/png" href="favicon2.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon2.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
+  <!-- Your existing CSS -->
   <link rel="stylesheet" href="countdown.css">
 </head>
 
 <body>
 
-<div class="countdown-container">
+<div class="container">
 
-  <div class="day-card">
+  <div class="card">
 
-    <!-- THIS WRAPPER IS IMPORTANT FOR 3D FLIP -->
-    <div class="page-inner" id="page-inner">
+    <h1 class="title">countdown to our first date 💙</h1>
 
-      <h2 id="day-label">Day 1</h2>
+    <!-- TIMER AREA (NOW DAY SWITCHER) -->
+    <div class="timer">
 
-      <img id="day-image" src="" alt="day image">
+      <div class="time-box">
+        <span id="day-number">Day 1</span>
+        <small>memory</small>
+      </div>
 
-      <p id="day-text"></p>
+      <button id="next-day" class="arrow-btn">→</button>
 
     </div>
 
-    <button id="next-day" class="arrow-btn">→</button>
+    <!-- MAIN IMAGE -->
+    <img 
+      id="main-image"
+      src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg"
+      class="main-image"
+      alt="day image"
+    >
 
-    <p id="final-message" class="final-message hidden">
-      that was too long a wait :’)
+    <!-- MAIN MESSAGE -->
+    <p id="main-message" class="message">
+      Valentines pe akela 😭
     </p>
 
   </div>
 
-</div>
+  <!-- SMALL STITCH AT BOTTOM (UNCHANGED STYLE) -->
+  <a href="index.html" class="memory-anchor">
+    <img 
+      src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
+      class="mini-stitch"
+      alt="mini stitch"
+    >
+    <div class="mini-text">
+      where you made me wait :')
+    </div>
+  </a>
 
-<!-- Flip Sound -->
-<audio id="flip-sound" preload="auto">
-  <source src="https://assets.mixkit.co/active_storage/sfx/2073/2073-preview.mp3" type="audio/mpeg">
-</audio>
+</div>
 
 <script src="countdown.js"></script>
 
