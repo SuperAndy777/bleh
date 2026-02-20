@@ -1,0 +1,366 @@
+/* ===================================== */
+/* BASE */
+/* ===================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #ffffff;
+  color: #2b6cb0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+
+/* ===================================== */
+/* PAGE CONTAINER */
+/* ===================================== */
+
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 80px;
+  position: relative;
+}
+
+
+/* ===================================== */
+/* STAGES */
+/* ===================================== */
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  animation: fadeIn 0.4s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* ===================================== */
+/* TEXT */
+/* ===================================== */
+
+.subtext {
+  font-size: 22px;
+  margin: 0;
+}
+
+.pink {
+  font-size: 28px;
+  color: #e85d75;
+  margin: 8px 0 16px;
+}
+
+.main-question {
+  font-family: "Playfair Display", serif;
+  font-size: 64px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0 0 50px;
+}
+
+.red-text {
+  font-family: "Playfair Display", serif;
+  font-size: 60px;
+  color: #b00020;
+  text-align: center;
+}
+
+
+/* ===================================== */
+/* GIFS */
+/* ===================================== */
+
+.content-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.side-gif {
+  width: 420px;
+  max-width: 100%;
+}
+
+.rounded-gif {
+  width: 420px;
+  max-width: 90%;
+  border-radius: 20px;
+}
+
+.final-gif {
+  width: 450px;
+  max-width: 95%;
+}
+
+
+/* ===================================== */
+/* BUTTONS */
+/* ===================================== */
+
+.button-area {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  transition: all 0.25s ease;
+}
+
+/* YES */
+
+.btn-yes {
+  background: #4f83d1;
+  color: white;
+  font-size: 48px;
+  padding: 22px 80px;
+  border-radius: 14px;
+  animation: pulse 2.5s infinite;
+}
+
+/* NO */
+
+.btn-no {
+  background: #e84c4c;
+  color: white;
+  font-size: 18px;
+  padding: 8px 36px;
+  border-radius: 8px;
+}
+
+/* RED BUTTON */
+
+.btn-red {
+  background: #b00020;
+  color: white;
+  font-size: 46px;
+  padding: 20px 90px;
+  border-radius: 16px;
+}
+
+
+/* ===================================== */
+/* NO & YES RESULT PAGES */
+/* ===================================== */
+
+#stage-no-result,
+#stage-yes-burst,
+#stage-final {
+  flex-direction: column;
+  text-align: center;
+  gap: 40px;
+}
+
+.sad-face {
+  font-size: 40px;
+}
+
+.happy-face {
+  font-size: 48px;
+}
+
+
+/* ===================================== */
+/* MEMORY ANCHOR */
+/* ===================================== */
+
+.memory-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  text-decoration: none;
+}
+
+.mini-stitch {
+  width: 34px;
+  margin-bottom: 8px;
+}
+
+.mini-text {
+  font-size: 12px;
+  color: #777;
+}
+
+
+/* ===================================== */
+/* ANIMATIONS */
+/* ===================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* YES Pulse */
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Page Shake */
+
+.shake {
+  animation: pageShake 0.4s ease;
+}
+
+@keyframes pageShake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+  100% { transform: translateX(0); }
+}
+
+/* Impact Freeze */
+
+.impact-freeze {
+  animation: impactScale 0.15s ease;
+}
+
+@keyframes impactScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+  100% { transform: scale(1); }
+}
+
+
+/* ===================================== */
+/* CINEMATIC BLOOD */
+/* ===================================== */
+
+.blood-splash {
+  position: fixed;
+  width: 60px;
+  height: 25px;
+  background: #6e0000;
+  border-radius: 50% 40% 60% 45%;
+  transform: translate(-50%, -50%) rotate(var(--rotation));
+  animation: cinematicBurst 0.7s ease-out forwards;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow:
+    inset -10px -6px 20px rgba(0,0,0,0.4),
+    0 0 18px rgba(120,0,0,0.5);
+}
+
+@keyframes cinematicBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2) rotate(var(--rotation));
+    opacity: 0.4;
+  }
+  100% {
+    transform:
+      translate(calc(var(--targetX) - 50%), calc(var(--targetY) - 50%))
+      scaleX(var(--stretch))
+      scaleY(0.6)
+      rotate(var(--rotation));
+    opacity: 0.95;
+  }
+}
+
+.blood-fade {
+  animation: bloodFadeOut 1s ease forwards;
+}
+
+@keyframes bloodFadeOut {
+  to { opacity: 0; }
+}
+
+/* Vignette */
+
+.blood-vignette {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at center,
+      rgba(120,0,0,0.15) 0%,
+      rgba(0,0,0,0.25) 100%);
+  animation: vignetteFade 1.5s ease forwards;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+@keyframes vignetteFade {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* ===================================== */
+/* MOBILE REFINED */
+/* ===================================== */
+
+@media (max-width: 900px) {
+
+  .page-container {
+    padding: 30px 20px;
+  }
+
+  .stage {
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .main-question {
+    font-size: 34px;
+    margin-bottom: 28px;
+  }
+
+  .subtext {
+    font-size: 16px;
+  }
+
+  .pink {
+    font-size: 20px;
+  }
+
+  .button-area {
+    gap: 18px;
+  }
+
+  .btn-yes {
+    font-size: 26px;
+    padding: 14px 42px;
+  }
+
+  .btn-no {
+    font-size: 14px;
+    padding: 8px 24px;
+  }
+
+  .btn-red {
+    font-size: 28px;
+    padding: 16px 60px;
+  }
+
+  .side-gif,
+  .rounded-gif,
+  .final-gif {
+    width: 220px;
+  }
+
+  .memory-anchor {
+    margin-top: 60px;
+  }
+
+}
