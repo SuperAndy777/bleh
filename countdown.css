@@ -169,3 +169,25 @@ body {
   }
 
 }
+
+/* ===== Arrow Button Styling (Minimal) ===== */
+
+.arrow-btn {
+  background: #2b6cb0; /* match your theme blue */
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 8px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 12px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.arrow-btn:hover {
+  transform: scale(1.1);
+}
+
+.arrow-btn:active {
+  transform: scale(0.95);
+}
