@@ -14,7 +14,7 @@ function showStage(id) {
 }
 
 // ============================
-// DEVICE DETECTION
+// DEVICE
 // ============================
 
 const isMobile = window.innerWidth <= 900;
@@ -28,7 +28,7 @@ let isCopter = false;
 let animationFrame = null;
 
 // ============================
-// SMOOTH DESKTOP DODGE
+// DESKTOP DODGE (STAGE 1 STYLE)
 // ============================
 
 if (!isMobile) {
@@ -60,7 +60,6 @@ if (!isMobile) {
       noBtn.style.position = "fixed";
       noBtn.style.zIndex = 1000;
 
-      // allow slight edge escape
       const padding = -rect.width / 3;
 
       targetX = Math.max(padding,
@@ -73,38 +72,18 @@ if (!isMobile) {
       noBtn.style.top = targetY + "px";
     }
   });
-
 }
 
 // ============================
-// MOBILE TAP ESCAPE
+// NO BUTTON CLICK LOGIC (UNIFIED)
 // ============================
 
-if (isMobile) {
-  noBtn.addEventListener("click", (e) => {
-    if (isCopter) return;
-    e.preventDefault();
-    handleNoProgress();
-  });
-}
-
-// ============================
-// NO CLICK PROGRESSION
-// ============================
-
-noBtn.addEventListener("click", () => {
+noBtn.addEventListener("click", (e) => {
 
   if (isCopter) {
     showStage("stage2");
     return;
   }
-
-  if (!isMobile) {
-    handleNoProgress();
-  }
-});
-
-function handleNoProgress() {
 
   noClicks++;
 
@@ -117,10 +96,10 @@ function handleNoProgress() {
   if (noClicks === 3) {
     preSpinThenCopter();
   }
-}
+});
 
 // ============================
-// PRE-SPIN WARNING
+// PRE-SPIN
 // ============================
 
 function preSpinThenCopter() {
@@ -139,7 +118,7 @@ function preSpinThenCopter() {
 }
 
 // ============================
-// PHYSICS COPTER MODE
+// COPTER MODE (MOBILE + DESKTOP)
 // ============================
 
 function startCopterMode() {
@@ -164,7 +143,7 @@ function startCopterMode() {
   function animate() {
 
     if (speedRamp < maxRamp) {
-      speedRamp += 0.02;   // ramps over ~3 seconds
+      speedRamp += 0.02;
     }
 
     x += velocityX * speedRamp;
@@ -172,7 +151,6 @@ function startCopterMode() {
 
     const rect = noBtn.getBoundingClientRect();
 
-    // bounce on edges (smooth)
     if (x <= 0 || x >= window.innerWidth - rect.width) {
       velocityX *= -1;
     }
@@ -197,7 +175,7 @@ function startCopterMode() {
 }
 
 // ============================
-// YES PATH (Blood Transition)
+// YES PATH
 // ============================
 
 yesBtn.addEventListener("click", () => {
