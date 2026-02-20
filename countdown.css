@@ -77,3 +77,28 @@ body {
   }
 
 }
+
+/* PAGE FLIP EFFECT */
+
+.page-inner {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: left center;
+}
+
+.page-inner.flip {
+  transform: rotateY(-20deg);
+  opacity: 0.4;
+}
+
+/* FINAL MESSAGE */
+
+.final-message {
+  margin-top: 20px;
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  color: #b00020;
+}
+
+.hidden {
+  display: none;
+}
