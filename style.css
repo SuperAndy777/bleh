@@ -174,21 +174,28 @@ button {
 }
 
 
-/* ===================================== */
-/* MEMORY ANCHOR */
-/* ===================================== */
-
 .memory-anchor {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
-  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 10;
+}
+
+.memory-anchor:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.05);
 }
 
 .mini-stitch {
   width: 34px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .mini-text {
@@ -311,19 +318,28 @@ button {
 
 @media (max-width: 900px) {
 
+  body {
+    min-height: 100vh;
+  }
+
   .page-container {
-    padding: 30px 20px;
+    padding: 30px 20px 100px 20px; /* extra bottom space for anchor */
   }
 
   .stage {
     flex-direction: column;
     text-align: center;
-    gap: 28px;
+    justify-content: center;
+    gap: 26px;
+  }
+
+  .content-right {
+    order: -1; /* gif on top */
   }
 
   .main-question {
     font-size: 34px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .subtext {
@@ -335,12 +351,14 @@ button {
   }
 
   .button-area {
-    gap: 18px;
+    gap: 16px;
+    align-items: center;
   }
 
   .btn-yes {
     font-size: 26px;
     padding: 14px 42px;
+    border-radius: 12px;
   }
 
   .btn-no {
@@ -351,16 +369,44 @@ button {
   .btn-red {
     font-size: 28px;
     padding: 16px 60px;
+    border-radius: 14px;
   }
 
   .side-gif,
   .rounded-gif,
   .final-gif {
     width: 220px;
+    max-width: 90%;
   }
 
+  .red-text {
+    font-size: 32px;
+  }
+
+  .sad-face {
+    font-size: 30px;
+  }
+
+  .happy-face {
+    font-size: 36px;
+  }
+
+  /* MEMORY ANCHOR FIXED BOTTOM */
+
   .memory-anchor {
-    margin-top: 60px;
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.9;
+  }
+
+  .mini-stitch {
+    width: 28px;
+  }
+
+  .mini-text {
+    font-size: 11px;
   }
 
 }
