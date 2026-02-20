@@ -25,25 +25,56 @@ function showStage(id) {
 const isMobile = window.innerWidth <= 900;
 
 // =====================
-// DESKTOP HOVER ESCAPE
+// DESKTOP SMOOTH DODGE (Stage 1 Style)
 // =====================
 
-function desktopDodge(e) {
-  if (isMobile || copterMode) return;
+if (!isMobile) {
 
-  const rect = noBtn.getBoundingClientRect();
-  const dx = e.clientX - (rect.left + rect.width / 2);
-  const dy = e.clientY - (rect.top + rect.height / 2);
-  const dist = Math.sqrt(dx * dx + dy * dy);
+  document.addEventListener("mousemove", (e) => {
 
-  if (dist < 120) {
-    const moveX = (Math.random() - 0.5) * 200;
-    const moveY = (Math.random() - 0.5) * 200;
-    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-  }
+    if (copterMode) return;
+
+    const rect = noBtn.getBoundingClientRect();
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    let dx = e.clientX - centerX;
+    let dy = e.clientY - centerY;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 120) {
+
+      dx /= distance;
+      dy /= distance;
+
+      const moveDistance = 80;
+
+      let newX = rect.left - dx * moveDistance;
+      let newY = rect.top - dy * moveDistance;
+
+      const padding = 10;
+
+      newX = Math.max(
+        padding,
+        Math.min(window.innerWidth - rect.width - padding, newX)
+      );
+
+      newY = Math.max(
+        padding,
+        Math.min(window.innerHeight - rect.height - padding, newY)
+      );
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = newX + "px";
+      noBtn.style.top = newY + "px";
+      noBtn.style.zIndex = 1000;
+    }
+
+  });
+
 }
-
-document.addEventListener("mousemove", desktopDodge);
 
 // =====================
 // MOBILE ESCAPE
