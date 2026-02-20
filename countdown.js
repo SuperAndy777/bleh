@@ -1,15 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const dayLabel = document.getElementById("day-label");
-  const dayImage = document.getElementById("day-image");
-  const dayText = document.getElementById("day-text");
+  const dayNumber = document.getElementById("day-number");
   const nextBtn = document.getElementById("next-day");
-  const finalMessage = document.getElementById("final-message");
-  const pageInner = document.getElementById("page-inner");
-  const flipSound = document.getElementById("flip-sound");
+  const image = document.getElementById("main-image");
+  const message = document.getElementById("main-message");
 
   let currentDay = 0;
-  let touchStartX = 0;
 
   const days = [
     {
@@ -20,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       label: "Day 2",
       img: "https://i.pinimg.com/736x/59/4b/a2/594ba2ac05671ca5726a42391b89e4ab.jpg",
-      text: "1 WEEK MOREEEEE????!!! AHHHH (p.s. tis image is so accurate me :))"
+      text: "1 WEEK MOREEEEE????!!! AHHHH"
     },
     {
       label: "Day 3",
@@ -55,59 +51,28 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       label: "Day 9",
       img: "https://i.pinimg.com/originals/7e/ca/2e/7eca2e7d1f128311f53be28fe3979806.gif",
-      text: "Yayyyyyyy, can't wait!"
+      text: "Yayyyyyyy, can't wait! — that was too long a wait :’)"
     }
   ];
 
   function updateDay() {
     const day = days[currentDay];
-    dayLabel.textContent = day.label;
-    dayImage.src = day.img;
-    dayText.textContent = day.text;
 
+    dayNumber.textContent = day.label;
+    image.src = day.img;
+    message.textContent = day.text;
+
+    // Hide arrow on last day
     if (currentDay === days.length - 1) {
       nextBtn.style.display = "none";
-      finalMessage.classList.remove("hidden");
     }
   }
 
-  function flipPage() {
-    pageInner.classList.add("flip");
-    pageInner.classList.add("shadow-sweep");
-
-    flipSound.currentTime = 0;
-    flipSound.play();
-
-    setTimeout(() => {
-      updateDay();
-      pageInner.classList.remove("flip");
-      pageInner.classList.remove("shadow-sweep");
-    }, 350);
-  }
-
-  function goNext() {
+  nextBtn.addEventListener("click", () => {
     if (currentDay < days.length - 1) {
       currentDay++;
-      flipPage();
-    }
-  }
-
-  nextBtn.addEventListener("click", goNext);
-
-  /* Swipe gesture (mobile only forward) */
-
-  pageInner.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  });
-
-  pageInner.addEventListener("touchend", (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-
-    if (touchStartX - touchEndX > 50) {
-      goNext();
+      updateDay();
     }
   });
-
-  updateDay();
 
 });
