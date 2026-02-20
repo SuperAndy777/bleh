@@ -29,6 +29,8 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 80px 60px;
+  position: relative;
+  z-index: 3; /* Above blood */
 }
 
 /* =========================================
@@ -40,6 +42,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 60px;
+  position: relative;
+  z-index: 4; /* Ensure stage content above effects */
 }
 
 .hidden {
@@ -120,6 +124,8 @@ button {
   cursor: pointer;
   font-family: "Playfair Display", serif;
   transition: all 0.25s ease;
+  position: relative;
+  z-index: 5; /* Always above effects */
 }
 
 .btn-yes {
@@ -147,13 +153,15 @@ button {
 }
 
 /* =========================================
-   MEMORY SECTION (NO FLOATING)
+   MEMORY SECTION (NEVER FLOATS)
 ========================================= */
 
 .memory-section {
   width: 100%;
   text-align: center;
   padding: 40px 0 60px 0;
+  position: relative;
+  z-index: 4;
 }
 
 .memory-anchor {
@@ -174,6 +182,16 @@ button {
 }
 
 /* =========================================
+   BLOOD LAYER CONTROL
+========================================= */
+
+.blood-splash {
+  position: fixed;
+  pointer-events: none !important; /* NEVER block clicks */
+  z-index: 1; /* Always below content */
+}
+
+/* =========================================
    MOBILE
 ========================================= */
 
@@ -191,6 +209,14 @@ button {
 
   .main-question {
     font-size: 34px;
+  }
+
+  .subtext {
+    font-size: 16px;
+  }
+
+  .pink {
+    font-size: 20px;
   }
 
   .btn-yes {
