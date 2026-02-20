@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const dayImage = document.getElementById("day-image");
   const dayText = document.getElementById("day-text");
   const nextBtn = document.getElementById("next-day");
+  const finalMessage = document.getElementById("final-message");
+  const pageInner = document.getElementById("page-inner");
 
   let currentDay = 0;
 
@@ -56,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   function updateDay() {
-
     const day = days[currentDay];
 
     dayLabel.textContent = day.label;
@@ -65,13 +66,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentDay === days.length - 1) {
       nextBtn.style.display = "none";
+      finalMessage.classList.remove("hidden");
     }
+  }
+
+  function flipPage() {
+    pageInner.classList.add("flip");
+
+    setTimeout(() => {
+      updateDay();
+      pageInner.classList.remove("flip");
+    }, 300);
   }
 
   nextBtn.addEventListener("click", () => {
     if (currentDay < days.length - 1) {
       currentDay++;
-      updateDay();
+      flipPage();
     }
   });
 
