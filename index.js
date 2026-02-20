@@ -1,168 +1,239 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================================
+   BASE
+========================================= */
 
-  const stageMain = document.getElementById("stage-main");
-  const stageNo = document.getElementById("stage-no-result");
-  const stageYes = document.getElementById("stage-yes-burst");
-  const stageFinal = document.getElementById("stage-final");
+* {
+  box-sizing: border-box;
+}
 
-  const btnYes = document.getElementById("btn-yes");
-  const btnNo = document.getElementById("btn-no");
-  const btnRed = document.getElementById("btn-red");
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #ffffff;
+  color: #2b6cb0;
+}
 
-  let noClicks = 0;
-  let scale = 1;
+/* =========================================
+   WRAPPER STRUCTURE
+========================================= */
 
-  /* ============================= */
-  /* STAGE SWITCH */
-  /* ============================= */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-  function switchStage(hide, show) {
-    hide.classList.add("hidden");
-    show.classList.remove("hidden");
+.content-area {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================
+   STAGES
+========================================= */
+
+.stage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =========================================
+   TEXT
+========================================= */
+
+.subtext {
+  font-size: 22px;
+  margin: 0;
+}
+
+.pink {
+  font-size: 28px;
+  color: #e85d75;
+  margin: 8px 0 16px;
+}
+
+.main-question {
+  font-family: "Playfair Display", serif;
+  font-size: 64px;
+  line-height: 1.15;
+  margin-bottom: 40px;
+}
+
+.red-text {
+  font-family: "Playfair Display", serif;
+  font-size: 60px;
+  color: #b00020;
+  text-align: center;
+}
+
+/* =========================================
+   LAYOUT SIDES
+========================================= */
+
+.content-left {
+  flex: 1;
+}
+
+.content-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.side-gif {
+  width: 420px;
+  max-width: 100%;
+}
+
+.rounded-gif {
+  width: 420px;
+  max-width: 100%;
+  border-radius: 20px;
+}
+
+.final-gif {
+  width: 450px;
+  max-width: 100%;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.button-area {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: "Playfair Display", serif;
+  transition: all 0.25s ease;
+}
+
+.btn-yes {
+  background: #4f83d1;
+  color: white;
+  font-size: 48px;
+  padding: 22px 80px;
+  border-radius: 14px;
+}
+
+.btn-no {
+  background: #e84c4c;
+  color: white;
+  font-size: 18px;
+  padding: 8px 36px;
+  border-radius: 8px;
+}
+
+.btn-red {
+  background: #b00020;
+  color: white;
+  font-size: 46px;
+  padding: 20px 90px;
+  border-radius: 16px;
+}
+
+/* =========================================
+   MEMORY SECTION (NEVER FLOATS)
+========================================= */
+
+.memory-section {
+  width: 100%;
+  text-align: center;
+  padding: 40px 0 60px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.memory-anchor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+.mini-stitch {
+  width: 36px;
+  margin-bottom: 8px;
+}
+
+.mini-text {
+  font-size: 12px;
+  color: #777;
+}
+
+/* =========================================
+   BLOOD CONTROL
+========================================= */
+
+.blood-splash {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .content-area {
+    padding: 40px 20px;
   }
 
-  /* ============================= */
-  /* SMART NO MOVEMENT */
-  /* ============================= */
-
-  function moveNoSmart() {
-
-    const padding = 40;
-
-    const maxX = window.innerWidth - btnNo.offsetWidth - padding;
-    const maxY = window.innerHeight - btnNo.offsetHeight - padding;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    btnNo.style.position = "fixed";
-    btnNo.style.left = x + "px";
-    btnNo.style.top = y + "px";
-    btnNo.style.transition = "all 0.25s ease";
-
-    const rotation = (Math.random() * 20) - 10;
-
-    btnNo.style.transform = `
-      scale(${scale})
-      rotate(${rotation}deg)
-    `;
+  .stage {
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
   }
 
-  /* ============================= */
-  /* NO BUTTON LOGIC */
-  /* ============================= */
-
-  btnNo.addEventListener("click", () => {
-
-    noClicks++;
-    scale -= 0.25;
-    if (scale < 0.3) scale = 0.3;
-
-    if (noClicks === 1) btnNo.textContent = "Haww";
-    if (noClicks === 2) btnNo.textContent = "Evil :(";
-
-    if (noClicks >= 3) {
-      switchStage(stageMain, stageNo);
-      return;
-    }
-
-    moveNoSmart();
-  });
-
-  /* ============================= */
-  /* PAGE SHAKE */
-  /* ============================= */
-
-  function shakePage() {
-    document.body.classList.add("shake");
-    setTimeout(() => {
-      document.body.classList.remove("shake");
-    }, 400);
+  .main-question {
+    font-size: 34px;
   }
 
-  /* ============================= */
-  /* CINEMATIC BLOOD IMPACT */
-  /* ============================= */
-
-  function cinematicBloodImpact(originEl) {
-
-    const rect = originEl.getBoundingClientRect();
-    const originX = rect.left + rect.width / 2;
-    const originY = rect.top + rect.height / 2;
-
-    // micro freeze
-    document.body.classList.add("impact-freeze");
-    setTimeout(() => {
-      document.body.classList.remove("impact-freeze");
-    }, 150);
-
-    const splashCount = 18;
-
-    for (let i = 0; i < splashCount; i++) {
-
-      const splash = document.createElement("div");
-      splash.classList.add("blood-splash");
-
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 120 + Math.random() * 260;
-
-      const targetX = originX + Math.cos(angle) * distance;
-      const targetY = originY + Math.sin(angle) * distance;
-
-      splash.style.left = originX + "px";
-      splash.style.top = originY + "px";
-
-      splash.style.setProperty("--targetX", targetX + "px");
-      splash.style.setProperty("--targetY", targetY + "px");
-      splash.style.setProperty("--rotation", Math.random() * 360 + "deg");
-      splash.style.setProperty("--stretch", 1 + Math.random() * 2);
-
-      document.body.appendChild(splash);
-
-      setTimeout(() => splash.classList.add("blood-fade"), 1200);
-      setTimeout(() => splash.remove(), 2200);
-    }
-
-    createCinematicVignette();
+  .subtext {
+    font-size: 16px;
   }
 
-  /* ============================= */
-  /* VIGNETTE */
-  /* ============================= */
-
-  function createCinematicVignette() {
-
-    const overlay = document.createElement("div");
-    overlay.classList.add("blood-vignette");
-
-    document.body.appendChild(overlay);
-
-    setTimeout(() => overlay.remove(), 1800);
+  .pink {
+    font-size: 20px;
   }
 
-  /* ============================= */
-  /* YES BUTTON */
-  /* ============================= */
+  .btn-yes {
+    font-size: 26px;
+    padding: 14px 42px;
+  }
 
-  btnYes.addEventListener("click", () => {
+  .btn-no {
+    font-size: 14px;
+    padding: 8px 24px;
+  }
 
-    btnNo.style.display = "none";
+  .btn-red {
+    font-size: 28px;
+    padding: 16px 60px;
+  }
 
-    shakePage();
-    cinematicBloodImpact(btnYes);
+  .side-gif,
+  .rounded-gif,
+  .final-gif {
+    width: 220px;
+  }
 
-    // cinematic delay before stage switch
-    setTimeout(() => {
-      switchStage(stageMain, stageYes);
-    }, 900);
-  });
-
-  /* ============================= */
-  /* RED BUTTON */
-  /* ============================= */
-
-  btnRed.addEventListener("click", () => {
-    switchStage(stageYes, stageFinal);
-  });
-
-});
+}
