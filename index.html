@@ -1,136 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>uh-oh</title>
-  <link rel="icon" type="image/png" href="favicon2.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
+  <link rel="icon" type="image/png" href="favicon2.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="page-container">
+<div class="page-wrapper">
 
-  <!-- ========================= -->
-  <!-- STAGE MAIN -->
-  <!-- ========================= -->
+  <!-- ================= CONTENT AREA ================= -->
+  <div class="content-area">
 
-  <div id="stage-main" class="stage">
+    <!-- ========= STAGE MAIN ========= -->
+    <div id="stage-main" class="stage">
 
-    <div class="content-left">
+      <div class="content-left">
+        <h2 class="subtext">ik it's pretty obvious that</h2>
+        <h2 class="pink">i like you :)</h2>
 
-      <h2 class="subtext">ik it's pretty obvious that</h2>
-      <h2 class="pink">i like you :)</h2>
+        <h1 class="main-question">
+          will you frr go like on a date date?
+        </h1>
 
-      <h1 class="main-question">
-        will you frr go like on a date date?
-      </h1>
+        <div class="button-area">
+          <button id="btn-yes" class="btn-yes">Yes</button>
+          <button id="btn-no" class="btn-no">No</button>
+        </div>
+      </div>
 
-      <div class="button-area">
-        <button id="btn-yes" class="btn-yes">Yes</button>
-        <button id="btn-no" class="btn-no">No</button>
+      <div class="content-right">
+        <img 
+          src="https://i.pinimg.com/1200x/c0/ac/5b/c0ac5bde9547988ea0e85fd9f69c3d74.jpg"
+          class="side-gif"
+          alt="stitch">
       </div>
 
     </div>
 
-    <div class="content-right">
+
+    <!-- ========= STAGE NO ========= -->
+    <div id="stage-no-result" class="stage hidden">
+
+      <div class="sad-face">:/</div>
+
+      <h1 class="main-question">
+        we still gonna partyyyyy
+      </h1>
+
       <img 
-        src="https://i.pinimg.com/1200x/c0/ac/5b/c0ac5bde9547988ea0e85fd9f69c3d74.jpg" 
-        class="side-gif"
-        alt="stitch"
-      />
+        src="https://i.pinimg.com/originals/06/77/6e/06776e9856e897cfe616110efe857613.gif"
+        class="rounded-gif"
+        alt="party stitch">
+    </div>
+
+
+    <!-- ========= STAGE YES BURST ========= -->
+    <div id="stage-yes-burst" class="stage hidden">
+
+      <h1 class="red-text">
+        dekh le 👀 i am as red as a flag can be?
+      </h1>
+
+      <button id="btn-red" class="btn-red">
+        me pagal
+      </button>
+
+      <img 
+        src="https://i.pinimg.com/originals/d2/56/21/d256215a34b100f28d02e5464c8ebac1.gif"
+        class="rounded-gif"
+        alt="red stitch">
+    </div>
+
+
+    <!-- ========= STAGE FINAL ========= -->
+    <div id="stage-final" class="stage hidden">
+
+      <div class="happy-face">:))))</div>
+
+      <img 
+        src="https://i.pinimg.com/736x/32/2c/0f/322c0fe8fbb1a7a138663b5a15846370.jpg"
+        class="final-gif"
+        alt="cute stitch">
     </div>
 
   </div>
+  <!-- END content-area -->
 
 
-  <!-- ========================= -->
-  <!-- STAGE NO RESULT -->
-  <!-- ========================= -->
-
-  <div id="stage-no-result" class="stage hidden">
-
-    <div class="sad-face">:/</div>
-
-    <h1 class="main-question">
-      we still gonna partyyyyy
-    </h1>
-
-    <img 
-      src="https://i.pinimg.com/originals/06/77/6e/06776e9856e897cfe616110efe857613.gif"
-      class="rounded-gif"
-      alt="party stitch"
-    />
-
+  <!-- ================= MEMORY PORTAL ================= -->
+  <div class="memory-section">
+    <a href="countdown.html" class="memory-anchor">
+      <img 
+        src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
+        class="mini-stitch"
+        alt="mini stitch">
+      <div class="mini-text">
+        when the wait was too long
+      </div>
+    </a>
   </div>
-
-
-  <!-- ========================= -->
-  <!-- STAGE YES BURST -->
-  <!-- ========================= -->
-
-  <div id="stage-yes-burst" class="stage hidden">
-
-    <h1 class="red-text">
-      dekh le 👀 
-      <br>i am as red as a flag can be
-    </h1>
-
-    <button id="btn-red" class="btn-red">
-      me pagal
-    </button>
-
-    <img 
-      src="https://i.pinimg.com/originals/d2/56/21/d256215a34b100f28d02e5464c8ebac1.gif"
-      class="rounded-gif"
-      alt="red stitch"
-    />
-
-  </div>
-
-
-  <!-- ========================= -->
-  <!-- STAGE FINAL -->
-  <!-- ========================= -->
-
-  <div id="stage-final" class="stage hidden">
-
-    <div class="happy-face">dono pagal :))))</div>
-
-    <img 
-      src="https://i.pinimg.com/736x/32/2c/0f/322c0fe8fbb1a7a138663b5a15846370.jpg"
-      class="final-gif"
-      alt="cute stitch"
-    />
-
-  </div>
-
-
-  <!-- ========================= -->
-  <!-- MEMORY LINK -->
-  <!-- ========================= -->
-
-  <a href="countdown.html" class="memory-anchor">
-    <img 
-      src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
-      class="mini-stitch"
-      alt="mini stitch"
-    />
-    <div class="mini-text">
-      when the wait was too long
-    </div>
-  </a>
 
 </div>
 
 <script src="index.js"></script>
-
 </body>
 </html>
