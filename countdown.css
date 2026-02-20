@@ -109,3 +109,17 @@ body {
 .memory-anchor a {
   text-decoration: none;
 }
+
+/* =========================
+   PAGE FLIP ANIMATION
+========================= */
+
+.memory-card {
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform-origin: center;
+}
+
+.memory-card.flip {
+  transform: rotateY(10deg) scale(0.98);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+}
