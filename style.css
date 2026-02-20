@@ -282,3 +282,16 @@ body {
   }
 
 }
+
+.stage3-wrapper {
+  text-align: center;
+}
+
+.stage3-wrapper .btn-me-pagal {
+  margin: 30px 0 20px 0;
+}
+
+.stage3-wrapper .center-gif {
+  margin: 0 auto;
+  display: block;
+}
