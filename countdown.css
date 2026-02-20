@@ -102,3 +102,29 @@ body {
 .hidden {
   display: none;
 }
+
+/* Subtle page shadow sweep */
+
+.page-inner {
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  transform-origin: left center;
+  position: relative;
+}
+
+.page-inner.flip {
+  transform: rotateY(-18deg);
+  opacity: 0.5;
+}
+
+.page-inner.shadow-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+  animation: shadowMove 0.35s ease forwards;
+}
+
+@keyframes shadowMove {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
