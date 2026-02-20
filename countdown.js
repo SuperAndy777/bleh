@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.getElementById("next-day");
   const finalMessage = document.getElementById("final-message");
   const pageInner = document.getElementById("page-inner");
+  const flipSound = document.getElementById("flip-sound");
 
   let currentDay = 0;
+  let touchStartX = 0;
 
   const days = [
     {
@@ -59,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateDay() {
     const day = days[currentDay];
-
     dayLabel.textContent = day.label;
     dayImage.src = day.img;
     dayText.textContent = day.text;
@@ -72,17 +73,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function flipPage() {
     pageInner.classList.add("flip");
+    pageInner.classList.add("shadow-sweep");
+
+    flipSound.currentTime = 0;
+    flipSound.play();
 
     setTimeout(() => {
       updateDay();
       pageInner.classList.remove("flip");
-    }, 300);
+      pageInner.classList.remove("shadow-sweep");
+    }, 350);
   }
 
-  nextBtn.addEventListener("click", () => {
+  function goNext() {
     if (currentDay < days.length - 1) {
       currentDay++;
       flipPage();
+    }
+  }
+
+  nextBtn.addEventListener("click", goNext);
+
+  /* Swipe gesture (mobile only forward) */
+
+  pageInner.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  pageInner.addEventListener("touchend", (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+
+    if (touchStartX - touchEndX > 50) {
+      goNext();
     }
   });
 
