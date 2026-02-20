@@ -8,34 +8,36 @@ const noBtn = document.getElementById("noBtn");
 const mePagalBtn = document.getElementById("mePagalBtn");
 const bloodOverlay = document.getElementById("bloodOverlay");
 
-let noClickCount = 0;
-let copterMode = false;
-let orbitInterval = null;
-
-// Switch stage safely
 function showStage(id) {
   stages.forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
 // =====================
-// DEVICE DETECTION
+// DEVICE
 // =====================
 
 const isMobile = window.innerWidth <= 900;
 
 // =====================
-// DESKTOP SMOOTH DODGE (Stage 1 Style)
+// NO BUTTON STATE
+// =====================
+
+let noClicks = 0;
+let isCopter = false;
+let animationFrame = null;
+
+// =====================
+// SMOOTH DESKTOP DODGE
 // =====================
 
 if (!isMobile) {
 
   document.addEventListener("mousemove", (e) => {
 
-    if (copterMode) return;
+    if (isCopter) return;
 
     const rect = noBtn.getBoundingClientRect();
-
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -44,129 +46,131 @@ if (!isMobile) {
 
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < 120) {
+    if (distance < 130) {
 
       dx /= distance;
       dy /= distance;
 
-      const moveDistance = 80;
+      const moveAmount = 90;
 
-      let newX = rect.left - dx * moveDistance;
-      let newY = rect.top - dy * moveDistance;
+      const targetX = rect.left - dx * moveAmount;
+      const targetY = rect.top - dy * moveAmount;
 
-      const padding = 10;
-
-      newX = Math.max(
-        padding,
-        Math.min(window.innerWidth - rect.width - padding, newX)
-      );
-
-      newY = Math.max(
-        padding,
-        Math.min(window.innerHeight - rect.height - padding, newY)
-      );
-
-      noBtn.style.position = "fixed";
-      noBtn.style.left = newX + "px";
-      noBtn.style.top = newY + "px";
-      noBtn.style.zIndex = 1000;
+      moveSmoothly(targetX, targetY);
     }
-
   });
-
 }
 
 // =====================
-// MOBILE ESCAPE
+// SMOOTH MOVE FUNCTION
+// =====================
+
+function moveSmoothly(targetX, targetY) {
+
+  noBtn.style.position = "fixed";
+  noBtn.style.zIndex = 1000;
+
+  let currentX = noBtn.offsetLeft;
+  let currentY = noBtn.offsetTop;
+
+  function animate() {
+
+    const dx = targetX - currentX;
+    const dy = targetY - currentY;
+
+    currentX += dx * 0.15;
+    currentY += dy * 0.15;
+
+    noBtn.style.left = currentX + "px";
+    noBtn.style.top = currentY + "px";
+
+    if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
+      animationFrame = requestAnimationFrame(animate);
+    }
+  }
+
+  cancelAnimationFrame(animationFrame);
+  animate();
+}
+
+// =====================
+// MOBILE TAP ESCAPE
 // =====================
 
 if (isMobile) {
+
   noBtn.addEventListener("click", (e) => {
-    if (copterMode) return;
+    if (isCopter) return;
     e.preventDefault();
-    chaosProgression();
+    handleNoProgress();
   });
+
 }
 
 // =====================
-// CHAOS PROGRESSION
+// NO CLICK PROGRESSION
 // =====================
 
-function chaosProgression() {
+noBtn.addEventListener("click", () => {
 
-  noClickCount++;
-
-  // Shrink progressively
-  noBtn.style.transform += " scale(0.9)";
-
-  if (noClickCount === 1) {
-    noBtn.textContent = "Haww";
+  if (isCopter) {
+    showStage("stage2");
+    return;
   }
 
-  if (noClickCount === 2) {
-    noBtn.textContent = "Evil :(";
+  if (!isMobile) {
+    handleNoProgress();
   }
+});
 
-  if (noClickCount === 3) {
-    preCopterWarning();
+function handleNoProgress() {
+
+  noClicks++;
+
+  noBtn.style.transform = "scale(" + (1 - noClicks * 0.1) + ")";
+
+  if (noClicks === 1) noBtn.textContent = "Haww";
+  if (noClicks === 2) noBtn.textContent = "Evil :(";
+
+  if (noClicks === 3) {
+    startCopterMode();
   }
 }
 
 // =====================
-// PRE-COPTER SPIN
+// COPTER MODE
 // =====================
 
-function preCopterWarning() {
+function startCopterMode() {
 
-  noBtn.style.transition = "transform 0.2s linear";
-  let angle = 0;
+  isCopter = true;
 
-  const spin = setInterval(() => {
-    angle += 20;
-    noBtn.style.transform = `rotate(${angle}deg)`;
-  }, 30);
-
-  setTimeout(() => {
-    clearInterval(spin);
-    activateCopter();
-  }, 1200);
-}
-
-// =====================
-// BAMBOOCOPTER MODE
-// =====================
-
-function activateCopter() {
-
-  copterMode = true;
   noBtn.style.position = "fixed";
-  noBtn.style.zIndex = "1000";
+  noBtn.style.zIndex = 1000;
 
   let angle = 0;
-  const radiusX = window.innerWidth / 3;
-  const radiusY = window.innerHeight / 3;
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-  orbitInterval = setInterval(() => {
+  function orbit() {
 
     angle += 0.05;
 
-    const x = window.innerWidth / 2 + radiusX * Math.cos(angle);
-    const y = window.innerHeight / 2 + radiusY * Math.sin(angle);
+    const radiusX = window.innerWidth / 3;
+    const radiusY = window.innerHeight / 3;
+
+    const x = centerX + radiusX * Math.cos(angle);
+    const y = centerY + radiusY * Math.sin(angle);
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-    noBtn.style.transform = `rotate(${angle * 200}deg)`;
+    noBtn.style.transform = `rotate(${angle * 300}deg) scale(0.7)`;
 
-  }, 16);
+    requestAnimationFrame(orbit);
+  }
+
+  orbit();
 }
-
-// Catch the copter
-noBtn.addEventListener("click", () => {
-  if (!copterMode) return;
-
-  clearInterval(orbitInterval);
-  showStage("stage2");
-});
 
 // =====================
 // YES PATH
@@ -174,7 +178,6 @@ noBtn.addEventListener("click", () => {
 
 yesBtn.addEventListener("click", () => {
 
-  // Blood flood
   bloodOverlay.style.opacity = 1;
   document.body.classList.add("screen-shake");
 
