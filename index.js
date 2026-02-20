@@ -1,6 +1,6 @@
-// =====================
+// ============================
 // STAGE CONTROL
-// =====================
+// ============================
 
 const stages = document.querySelectorAll(".stage");
 const yesBtn = document.getElementById("yesBtn");
@@ -13,23 +13,23 @@ function showStage(id) {
   document.getElementById(id).classList.add("active");
 }
 
-// =====================
-// DEVICE
-// =====================
+// ============================
+// DEVICE DETECTION
+// ============================
 
 const isMobile = window.innerWidth <= 900;
 
-// =====================
+// ============================
 // NO BUTTON STATE
-// =====================
+// ============================
 
 let noClicks = 0;
 let isCopter = false;
 let animationFrame = null;
 
-// =====================
+// ============================
 // SMOOTH DESKTOP DODGE
-// =====================
+// ============================
 
 if (!isMobile) {
 
@@ -38,6 +38,7 @@ if (!isMobile) {
     if (isCopter) return;
 
     const rect = noBtn.getBoundingClientRect();
+
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -53,63 +54,43 @@ if (!isMobile) {
 
       const moveAmount = 90;
 
-      const targetX = rect.left - dx * moveAmount;
-      const targetY = rect.top - dy * moveAmount;
+      let targetX = rect.left - dx * moveAmount;
+      let targetY = rect.top - dy * moveAmount;
 
-      moveSmoothly(targetX, targetY);
+      noBtn.style.position = "fixed";
+      noBtn.style.zIndex = 1000;
+
+      // allow slight edge escape
+      const padding = -rect.width / 3;
+
+      targetX = Math.max(padding,
+        Math.min(window.innerWidth - rect.width - padding, targetX));
+
+      targetY = Math.max(padding,
+        Math.min(window.innerHeight - rect.height - padding, targetY));
+
+      noBtn.style.left = targetX + "px";
+      noBtn.style.top = targetY + "px";
     }
   });
+
 }
 
-// =====================
-// SMOOTH MOVE FUNCTION
-// =====================
-
-function moveSmoothly(targetX, targetY) {
-
-  noBtn.style.position = "fixed";
-  noBtn.style.zIndex = 1000;
-
-  let currentX = noBtn.offsetLeft;
-  let currentY = noBtn.offsetTop;
-
-  function animate() {
-
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
-
-    currentX += dx * 0.15;
-    currentY += dy * 0.15;
-
-    noBtn.style.left = currentX + "px";
-    noBtn.style.top = currentY + "px";
-
-    if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
-      animationFrame = requestAnimationFrame(animate);
-    }
-  }
-
-  cancelAnimationFrame(animationFrame);
-  animate();
-}
-
-// =====================
+// ============================
 // MOBILE TAP ESCAPE
-// =====================
+// ============================
 
 if (isMobile) {
-
   noBtn.addEventListener("click", (e) => {
     if (isCopter) return;
     e.preventDefault();
     handleNoProgress();
   });
-
 }
 
-// =====================
+// ============================
 // NO CLICK PROGRESSION
-// =====================
+// ============================
 
 noBtn.addEventListener("click", () => {
 
@@ -127,19 +108,39 @@ function handleNoProgress() {
 
   noClicks++;
 
-  noBtn.style.transform = "scale(" + (1 - noClicks * 0.1) + ")";
+  const scaleValue = 1 - noClicks * 0.1;
+  noBtn.style.transform = `scale(${scaleValue})`;
 
   if (noClicks === 1) noBtn.textContent = "Haww";
   if (noClicks === 2) noBtn.textContent = "Evil :(";
 
   if (noClicks === 3) {
-    startCopterMode();
+    preSpinThenCopter();
   }
 }
 
-// =====================
-// COPTER MODE
-// =====================
+// ============================
+// PRE-SPIN WARNING
+// ============================
+
+function preSpinThenCopter() {
+
+  let angle = 0;
+
+  const spinInterval = setInterval(() => {
+    angle += 25;
+    noBtn.style.transform = `rotate(${angle}deg) scale(0.7)`;
+  }, 30);
+
+  setTimeout(() => {
+    clearInterval(spinInterval);
+    startCopterMode();
+  }, 900);
+}
+
+// ============================
+// PHYSICS COPTER MODE
+// ============================
 
 function startCopterMode() {
 
@@ -147,34 +148,57 @@ function startCopterMode() {
 
   noBtn.style.position = "fixed";
   noBtn.style.zIndex = 1000;
+  noBtn.style.transformOrigin = "center";
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+
+  let velocityX = (Math.random() - 0.5) * 6;
+  let velocityY = (Math.random() - 0.5) * 6;
+
+  let speedRamp = 1;
+  const maxRamp = 3.2;
 
   let angle = 0;
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
 
-  function orbit() {
+  function animate() {
 
-    angle += 0.05;
+    if (speedRamp < maxRamp) {
+      speedRamp += 0.02;   // ramps over ~3 seconds
+    }
 
-    const radiusX = window.innerWidth / 3;
-    const radiusY = window.innerHeight / 3;
+    x += velocityX * speedRamp;
+    y += velocityY * speedRamp;
 
-    const x = centerX + radiusX * Math.cos(angle);
-    const y = centerY + radiusY * Math.sin(angle);
+    const rect = noBtn.getBoundingClientRect();
+
+    // bounce on edges (smooth)
+    if (x <= 0 || x >= window.innerWidth - rect.width) {
+      velocityX *= -1;
+    }
+
+    if (y <= 0 || y >= window.innerHeight - rect.height) {
+      velocityY *= -1;
+    }
+
+    x = Math.max(0, Math.min(x, window.innerWidth - rect.width));
+    y = Math.max(0, Math.min(y, window.innerHeight - rect.height));
+
+    angle += 20 * speedRamp;
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-    noBtn.style.transform = `rotate(${angle * 300}deg) scale(0.7)`;
+    noBtn.style.transform = `rotate(${angle}deg) scale(0.7)`;
 
-    requestAnimationFrame(orbit);
+    animationFrame = requestAnimationFrame(animate);
   }
 
-  orbit();
+  animate();
 }
 
-// =====================
-// YES PATH
-// =====================
+// ============================
+// YES PATH (Blood Transition)
+// ============================
 
 yesBtn.addEventListener("click", () => {
 
@@ -188,10 +212,12 @@ yesBtn.addEventListener("click", () => {
   }, 800);
 });
 
-// =====================
+// ============================
 // ME PAGAL
-// =====================
+// ============================
 
-mePagalBtn?.addEventListener("click", () => {
-  showStage("stage4");
-});
+if (mePagalBtn) {
+  mePagalBtn.addEventListener("click", () => {
+    showStage("stage4");
+  });
+}
