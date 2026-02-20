@@ -1,6 +1,6 @@
-// ===============================
-// ELEMENTS
-// ===============================
+// =====================
+// STAGE CONTROL
+// =====================
 
 const stages = document.querySelectorAll(".stage");
 const yesBtn = document.getElementById("yesBtn");
@@ -9,128 +9,155 @@ const mePagalBtn = document.getElementById("mePagalBtn");
 const bloodOverlay = document.getElementById("bloodOverlay");
 
 let noClickCount = 0;
-let noHoverActive = true;
+let copterMode = false;
+let orbitInterval = null;
 
-const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
-// ===============================
-// STAGE SWITCH
-// ===============================
-
+// Switch stage safely
 function showStage(id) {
-  stages.forEach(stage => stage.classList.remove("active"));
+  stages.forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// ===============================
-// NO BUTTON ESCAPE LOGIC
-// ===============================
+// =====================
+// DEVICE DETECTION
+// =====================
 
-const noTexts = [
-  "No",
-  "Haww",
-  "Evil :(",
-  "pls?",
-  "arey",
-  "stoppp",
-  "ok fine"
-];
+const isMobile = window.innerWidth <= 900;
 
-function moveNoButton() {
-  const padding = 50;
+// =====================
+// DESKTOP HOVER ESCAPE
+// =====================
 
-  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+function desktopDodge(e) {
+  if (isMobile || copterMode) return;
 
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
+  const rect = noBtn.getBoundingClientRect();
+  const dx = e.clientX - (rect.left + rect.width / 2);
+  const dy = e.clientY - (rect.top + rect.height / 2);
+  const dist = Math.sqrt(dx * dx + dy * dy);
 
-  noBtn.style.position = "fixed";
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
+  if (dist < 120) {
+    const moveX = (Math.random() - 0.5) * 200;
+    const moveY = (Math.random() - 0.5) * 200;
+    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  }
 }
 
-function shrinkNoButton() {
-  const scale = Math.max(0.4, 1 - noClickCount * 0.12);
-  noBtn.style.transform = `scale(${scale})`;
-}
+document.addEventListener("mousemove", desktopDodge);
 
-// Desktop: run away on hover
-if (!isTouch) {
-  noBtn.addEventListener("mouseenter", () => {
-    if (noHoverActive) moveNoButton();
-  });
-}
+// =====================
+// MOBILE ESCAPE
+// =====================
 
-// Mobile: run away on touch
-if (isTouch) {
-  noBtn.addEventListener("touchstart", (e) => {
+if (isMobile) {
+  noBtn.addEventListener("click", (e) => {
+    if (copterMode) return;
     e.preventDefault();
-    moveNoButton();
+    chaosProgression();
   });
 }
 
-// Click escalation
-noBtn.addEventListener("click", () => {
+// =====================
+// CHAOS PROGRESSION
+// =====================
+
+function chaosProgression() {
 
   noClickCount++;
 
-  if (noClickCount < noTexts.length) {
-    noBtn.textContent = noTexts[noClickCount];
+  // Shrink progressively
+  noBtn.style.transform += " scale(0.9)";
+
+  if (noClickCount === 1) {
+    noBtn.textContent = "Haww";
   }
 
-  shrinkNoButton();
-  moveNoButton();
-
-  // After too much resistance → force surrender
-  if (noClickCount > 6) {
-    noHoverActive = false;
-    noBtn.style.opacity = "0";
-    setTimeout(() => {
-      showStage("stage2");
-    }, 400);
+  if (noClickCount === 2) {
+    noBtn.textContent = "Evil :(";
   }
+
+  if (noClickCount === 3) {
+    preCopterWarning();
+  }
+}
+
+// =====================
+// PRE-COPTER SPIN
+// =====================
+
+function preCopterWarning() {
+
+  noBtn.style.transition = "transform 0.2s linear";
+  let angle = 0;
+
+  const spin = setInterval(() => {
+    angle += 20;
+    noBtn.style.transform = `rotate(${angle}deg)`;
+  }, 30);
+
+  setTimeout(() => {
+    clearInterval(spin);
+    activateCopter();
+  }, 1200);
+}
+
+// =====================
+// BAMBOOCOPTER MODE
+// =====================
+
+function activateCopter() {
+
+  copterMode = true;
+  noBtn.style.position = "fixed";
+  noBtn.style.zIndex = "1000";
+
+  let angle = 0;
+  const radiusX = window.innerWidth / 3;
+  const radiusY = window.innerHeight / 3;
+
+  orbitInterval = setInterval(() => {
+
+    angle += 0.05;
+
+    const x = window.innerWidth / 2 + radiusX * Math.cos(angle);
+    const y = window.innerHeight / 2 + radiusY * Math.sin(angle);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.transform = `rotate(${angle * 200}deg)`;
+
+  }, 16);
+}
+
+// Catch the copter
+noBtn.addEventListener("click", () => {
+  if (!copterMode) return;
+
+  clearInterval(orbitInterval);
+  showStage("stage2");
 });
 
-// ===============================
-// YES CINEMATIC MODE
-// ===============================
+// =====================
+// YES PATH
+// =====================
 
 yesBtn.addEventListener("click", () => {
 
-  // Flash red overlay
-  bloodOverlay.style.opacity = "1";
-
-  // Screen shake
+  // Blood flood
+  bloodOverlay.style.opacity = 1;
   document.body.classList.add("screen-shake");
 
-  // Darkening effect
-  document.body.style.transition = "background 0.6s ease";
-  document.body.style.background = "#2b0000";
-
   setTimeout(() => {
-
-    bloodOverlay.style.opacity = "0";
-    document.body.classList.remove("screen-shake");
-    document.body.style.background = "white";
-
     showStage("stage3");
-
-  }, 900);
+    bloodOverlay.style.opacity = 0;
+    document.body.classList.remove("screen-shake");
+  }, 800);
 });
 
-// ===============================
-// ME PAGAL → FINAL
-// ===============================
+// =====================
+// ME PAGAL
+// =====================
 
-mePagalBtn.addEventListener("click", () => {
-
-  // Soft dramatic fade
-  document.body.style.transition = "opacity 0.4s ease";
-  document.body.style.opacity = "0.7";
-
-  setTimeout(() => {
-    document.body.style.opacity = "1";
-    showStage("stage4");
-  }, 300);
+mePagalBtn?.addEventListener("click", () => {
+  showStage("stage4");
 });
