@@ -390,3 +390,41 @@ button {
     opacity: 0;
   }
 }
+
+/* ===================================== */
+/* BLOOD STAINS */
+/* ===================================== */
+
+.blood-stain {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  background: #b00020;
+  border-radius: 50%;
+  opacity: 0.85;
+  z-index: 9999;
+  pointer-events: none;
+  filter: blur(2px);
+  animation: splat 0.4s ease-out forwards;
+}
+
+@keyframes splat {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+
+.fade-out {
+  animation: fadeBloodStain 0.8s ease forwards;
+}
+
+@keyframes fadeBloodStain {
+  to {
+    opacity: 0;
+  }
+}
