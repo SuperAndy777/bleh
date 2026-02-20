@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnNo = document.getElementById("btn-no");
   const btnRed = document.getElementById("btn-red");
 
-  const heartContainer = document.getElementById("heart-container");
 
   let noClicks = 0;
   let scale = 1;
@@ -101,28 +100,35 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => flash.remove(), 600);
   }
 
-  /* ============================= */
-  /* HEART RAIN */
-  /* ============================= */
+  function bloodExplosion() {
 
-  function createHeart() {
+  const count = 18;
 
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
+  for (let i = 0; i < count; i++) {
 
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (2 + Math.random() * 2) + "s";
+    const stain = document.createElement("div");
+    stain.classList.add("blood-stain");
 
-    heartContainer.appendChild(heart);
+    stain.style.left = Math.random() * 100 + "vw";
+    stain.style.top = Math.random() * 100 + "vh";
 
-    setTimeout(() => heart.remove(), 4000);
+    stain.style.transform = `
+      scale(${0.6 + Math.random() * 1.4})
+      rotate(${Math.random() * 360}deg)
+    `;
+
+    document.body.appendChild(stain);
+
+    setTimeout(() => {
+      stain.classList.add("fade-out");
+    }, 800);
+
+    setTimeout(() => {
+      stain.remove();
+    }, 1600);
   }
+}
 
-  function startHearts() {
-    for (let i = 0; i < 25; i++) {
-      setTimeout(createHeart, i * 100);
-    }
-  }
 
   /* ============================= */
   /* YES BUTTON */
@@ -133,8 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnNo.style.display = "none";
 
     shakePage();
-    bloodFlash();
-    startHearts();
+    bloodExplosion();
 
     setTimeout(() => {
       switchStage(stageMain, stageYes);
