@@ -218,35 +218,69 @@ button {
 
 
 /* ===================================== */
-/* MOBILE */
+/* MOBILE REFINED */
 /* ===================================== */
 
 @media (max-width: 900px) {
 
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .page-container {
-    padding: 40px 24px;
+    padding: 28px 18px;
   }
 
   .stage {
     flex-direction: column;
     text-align: center;
+    gap: 28px;
   }
 
   .main-question {
-    font-size: 42px;
+    font-size: 34px;
+    margin-bottom: 28px;
   }
 
-  .btn-yes {
-    font-size: 32px;
-    padding: 18px 60px;
-  }
-
-  .btn-no {
+  .subtext {
     font-size: 16px;
   }
 
-  .side-gif {
-    width: 260px;
+  .pink {
+    font-size: 20px;
+  }
+
+  .button-area {
+    gap: 18px;
+  }
+
+  .btn-yes {
+    font-size: 26px;
+    padding: 14px 42px;
+    border-radius: 12px;
+  }
+
+  .btn-no {
+    font-size: 14px;
+    padding: 8px 24px;
+  }
+
+  .btn-red {
+    font-size: 28px;
+    padding: 16px 60px;
+  }
+
+  .side-gif,
+  .rounded-gif,
+  .final-gif {
+    width: 220px;
+    max-width: 90%;
+  }
+
+  .memory-anchor {
+    margin-top: 60px;
   }
 
 }
