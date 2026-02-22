@@ -17,24 +17,21 @@ const countdownInterval = setInterval(() => {
 
   // WHEN TIME IS OVER
   if (distance <= 0 && !ended) {
-
+  
     ended = true;
     clearInterval(countdownInterval);
-
-    // Keep boxes, just change values
-    daysEl.textContent = "????";
-    hoursEl.textContent = "??";
-    minutesEl.textContent = "??";
-    secondsEl.textContent = "??";
-
-    // Update image
+  
+    daysEl.textContent = "?";
+    hoursEl.textContent = "?";
+    minutesEl.textContent = "?";
+    secondsEl.textContent = "?";
+  
     memoryImage.src =
       "https://i.pinimg.com/736x/a4/c6/d4/a4c6d44891723f0605eef5bd12db33f6.jpg";
-
-    // Update message
+  
     memoryText.textContent =
       "waiting for the day when our plan doesn't cancel :')";
-
+  
     return;
   }
 
