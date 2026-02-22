@@ -1,8 +1,5 @@
-// ===============================
-// COUNTDOWN ENDED STATE
-// ===============================
+const targetDate = new Date("February 22, 2026 00:00:00").getTime();
 
-// Grab elements
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
@@ -11,29 +8,48 @@ const secondsEl = document.getElementById("seconds");
 const memoryImage = document.getElementById("memoryImage");
 const memoryText = document.getElementById("memoryText");
 
-// Make sure elements exist before modifying
-if (daysEl && hoursEl && minutesEl && secondsEl) {
+let ended = false;
 
-  // Replace days with ????
-  daysEl.textContent = "????";
+const countdownInterval = setInterval(() => {
 
-  // Hide the other three boxes cleanly
-  const hoursBox = hoursEl.parentElement;
-  const minutesBox = minutesEl.parentElement;
-  const secondsBox = secondsEl.parentElement;
+  const now = new Date().getTime();
+  const distance = targetDate - now;
 
-  if (hoursBox) hoursBox.style.display = "none";
-  if (minutesBox) minutesBox.style.display = "none";
-  if (secondsBox) secondsBox.style.display = "none";
-}
+  // WHEN TIME IS OVER
+  if (distance <= 0 && !ended) {
 
-// Update image + message
-if (memoryImage) {
-  memoryImage.src =
-    "https://i.pinimg.com/736x/a4/c6/d4/a4c6d44891723f0605eef5bd12db33f6.jpg";
-}
+    ended = true;
+    clearInterval(countdownInterval);
 
-if (memoryText) {
-  memoryText.textContent =
-    "waiting for the day when our plan doesn't cancel :')";
-}
+    // Keep boxes, just change values
+    daysEl.textContent = "????";
+    hoursEl.textContent = "??";
+    minutesEl.textContent = "??";
+    secondsEl.textContent = "??";
+
+    // Update image
+    memoryImage.src =
+      "https://i.pinimg.com/736x/a4/c6/d4/a4c6d44891723f0605eef5bd12db33f6.jpg";
+
+    // Update message
+    memoryText.textContent =
+      "waiting for the day when our plan doesn't cancel :')";
+
+    return;
+  }
+
+  // Normal countdown
+  if (!ended) {
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    daysEl.textContent = days;
+    hoursEl.textContent = hours;
+    minutesEl.textContent = minutes;
+    secondsEl.textContent = seconds;
+  }
+
+}, 1000);
