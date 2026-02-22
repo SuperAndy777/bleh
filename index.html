@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
   <title>countdown to our first date ⏳</title>
 
@@ -10,109 +9,81 @@
 
   <link rel="icon" type="image/png" href="favicon2.png">
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
+  <div class="card">
 
-<div class="card">
+    <!-- TITLE -->
+    <h1>countdown to our first date 💙</h1>
 
+    <!-- DATE DISPLAY -->
+    <p class="date">soon hopefully 🤞</p>
 
-  <!-- TITLE -->
+    <!-- COUNTDOWN TIMER -->
+    <div class="countdown-container">
 
-  <h1>countdown to our first date 💙</h1>
+      <div class="time-box">
+        <div id="days" class="time-number">0</div>
+        <div class="time-label">days</div>
+      </div>
 
+      <div class="time-box">
+        <div id="hours" class="time-number">0</div>
+        <div class="time-label">hours</div>
+      </div>
 
-  <!-- DATE DISPLAY -->
+      <div class="time-box">
+        <div id="minutes" class="time-number">0</div>
+        <div class="time-label">minutes</div>
+      </div>
 
-  <p class="date">soon hopefully 🤞</p>
-
-
-
-  <!-- COUNTDOWN TIMER -->
-
-  <div class="countdown-container">
-
-    <div class="time-box">
-
-      <div id="days" class="time-number">0</div>
-      <div class="time-label">days</div>
-
-    </div>
-
-
-    <div class="time-box">
-
-      <div id="hours" class="time-number">0</div>
-      <div class="time-label">hours</div>
-
-    </div>
-
-
-    <div class="time-box">
-
-      <div id="minutes" class="time-number">0</div>
-      <div class="time-label">minutes</div>
+      <div class="time-box">
+        <div id="seconds" class="time-number">0</div>
+        <div class="time-label">seconds</div>
+      </div>
 
     </div>
 
+    <!-- DAILY IMAGE -->
+    <img
+      id="daily-img"
+      class="main-img"
+      src="https://i.pinimg.com/736x/31/98/c4/3198c4160125e36f9a2d5a334d751d2a.jpg"
+      alt="memory image"
+    >
 
-    <div class="time-box">
+    <!-- DAILY MESSAGE -->
+    <p id="daily-text" class="daily-message">
+      Yayyyyyyy, can't wait!
+    </p>
 
-      <div id="seconds" class="time-number">0</div>
-      <div class="time-label">seconds</div>
+    <!-- MEMORY PORTAL -->
+    <a href="stage2.html" class="memory-portal">
 
-    </div>
+      <img
+        src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
+        class="memory-btn"
+        alt="memory portal"
+      >
+
+      <p class="memory-text">
+        where you made me wait :')
+      </p>
+
+    </a>
 
   </div>
 
-
-
-  <!-- DAILY IMAGE -->
-
-  <img
-    id="daily-img"
-    class="main-img"
-    src=""
-  >
-
-
-
-  <!-- DAILY MESSAGE -->
-
-  <p id="daily-text" class="daily-message"></p>
-
-
-
-  <!-- MEMORY PORTAL -->
-
-  <a href="stage2.html" class="memory-portal">
-
-    <img
-      src="https://i.pinimg.com/736x/22/6a/6f/226a6f03677062b64f0b68f39259f4f1.jpg"
-      class="memory-btn"
-    >
-
-    <p class="memory-text">
-      where you made me wait :')
-    </p>
-
-  </a>
-
-
-</div>
-
-
-<script src="index.js"></script>
-
+  <script src="index.js"></script>
 
 </body>
 </html>
