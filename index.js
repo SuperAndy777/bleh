@@ -131,14 +131,32 @@ function updateCountdown() {
   const distance = targetDate - now;
 
   if (distance <= 0) {
-
-    daysEl.textContent = "0";
-    hoursEl.textContent = "0";
-    minutesEl.textContent = "0";
-    secondsEl.textContent = "0";
-
+  
+    clearInterval(countdownInterval); // stop timer
+  
+    // Hide Hours / Minutes / Seconds
+    document.getElementById("hours").parentElement.style.display = "none";
+    document.getElementById("minutes").parentElement.style.display = "none";
+    document.getElementById("seconds").parentElement.style.display = "none";
+  
+    // Replace Days with ????
+    document.getElementById("days").textContent = "????";
+  
+    // Flip animation (if you had it)
+    const memoryCard = document.querySelector(".memory-card");
+    memoryCard.classList.add("flip");
+  
+    setTimeout(() => {
+      document.getElementById("memoryImage").src =
+        "https://i.pinimg.com/736x/a4/c6/d4/a4c6d44891723f0605eef5bd12db33f6.jpg";
+  
+      document.getElementById("memoryText").textContent =
+        "waiting for the day when our plan doesn't cancel :')";
+  
+      memoryCard.classList.remove("flip");
+    }, 300);
+  
     return;
-
   }
 
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
