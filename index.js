@@ -1,5 +1,5 @@
 // ======================================
-// TARGET DATE (1st March, 7:00 PM)
+// TARGET DATE (1 March, 7:00 PM)
 // ======================================
 
 const targetDate = new Date("March 1, 2026 19:00:00").getTime();
@@ -11,8 +11,10 @@ const secondsEl = document.getElementById("seconds");
 
 const dailyImg = document.getElementById("daily-img");
 const dailyText = document.getElementById("daily-text");
+const dateEl = document.querySelector(".date");
 
 let ended = false;
+
 
 // ======================================
 // COUNTDOWN LOGIC
@@ -56,25 +58,31 @@ const countdownInterval = setInterval(() => {
 
 
 // ======================================
-// CINEMATIC TRANSITION
+// CINEMATIC TRANSITION (ON LOAD)
 // ======================================
 
 window.addEventListener("load", () => {
 
   const strikeWrap = document.querySelector(".strike-wrap");
-  const dailyImg = document.getElementById("daily-img");
 
   if (!strikeWrap) return;
 
   // Dramatic pause before strike
   setTimeout(() => {
 
+    // Animate strike line
     strikeWrap.classList.add("strike-active");
+
+    // Update date text
+    if (dateEl) {
+      dateEl.textContent = "1 March, 7:00 PM 🎤";
+    }
 
     // After strike finishes
     setTimeout(() => {
 
-      // Fade out image
+      // Fade image out
+      dailyImg.style.transition = "opacity 0.4s ease";
       dailyImg.style.opacity = "0";
 
       setTimeout(() => {
@@ -82,10 +90,10 @@ window.addEventListener("load", () => {
         // Change image
         dailyImg.src = "https://i.redd.it/0kg003dnaxuf1.jpeg";
 
-        // Fade back in
+        // Fade image back in
         dailyImg.style.opacity = "1";
 
-      }, 300);
+      }, 400);
 
       // Shift vibe to red
       document.body.classList.add("red-theme");
