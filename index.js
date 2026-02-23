@@ -22,6 +22,35 @@ const countdownInterval = setInterval(() => {
   const now = new Date().getTime();
   const distance = targetDate - now;
 
+window.addEventListener("load", () => {
+
+  const strikeWrap = document.querySelector(".strike-wrap");
+  const dailyImg = document.getElementById("daily-img");
+
+  // Delay for dramatic pause
+  setTimeout(() => {
+
+    strikeWrap.classList.add("strike-active");
+
+    // Change image after strike
+    setTimeout(() => {
+
+      dailyImg.classList.add("fade-out");
+
+      setTimeout(() => {
+        dailyImg.src = "https://i.redd.it/0kg003dnaxuf1.jpeg";
+        dailyImg.classList.remove("fade-out");
+        dailyImg.classList.add("fade-in");
+      }, 300);
+
+      // Theme shift
+      document.body.classList.add("red-theme");
+
+    }, 800);
+
+  }, 800);
+});
+
   // ===============================
   // WHEN COUNTDOWN ENDS
   // ===============================
