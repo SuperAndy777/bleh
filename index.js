@@ -12,6 +12,7 @@ const secondsEl = document.getElementById("seconds");
 const dailyImg = document.getElementById("daily-img");
 const dailyText = document.getElementById("daily-text");
 const dateEl = document.querySelector(".date");
+const card = document.querySelector(".card");
 
 let ended = false;
 
@@ -35,9 +36,7 @@ const countdownInterval = setInterval(() => {
     minutesEl.textContent = "?";
     secondsEl.textContent = "?";
 
-    dailyText.textContent =
-      "Virli ka standup night lessgoooo 🎤🔥";
-
+    dailyText.textContent = "Virliiii ka standup!";
     return;
   }
 
@@ -58,44 +57,50 @@ const countdownInterval = setInterval(() => {
 
 
 // ======================================
-// CINEMATIC TRANSITION (ON LOAD)
+// CINEMATIC TRANSITION
 // ======================================
 
 window.addEventListener("load", () => {
 
-  const strikeWrap = document.querySelector(".strike-wrap");
+  const strikeLine = document.querySelector(".strike-line");
 
-  if (!strikeWrap) return;
+  if (!strikeLine) return;
 
-  // Dramatic pause before strike
   setTimeout(() => {
 
-    // Animate strike line
-    strikeWrap.classList.add("strike-active");
+    // Animate strike
+    strikeLine.style.width = "100%";
 
-    // Update date text
+    // Activate full card for text fade
+    card.classList.add("strike-active");
+
+    // Update date
     if (dateEl) {
       dateEl.textContent = "1 March, 7:00 PM 🎤";
     }
 
-    // After strike finishes
+    // Remove daily message (Yayyyy)
+    if (dailyText) {
+      dailyText.style.opacity = "0";
+      setTimeout(() => {
+        dailyText.remove();
+      }, 400);
+    }
+
+    // Image transition
     setTimeout(() => {
 
-      // Fade image out
       dailyImg.style.transition = "opacity 0.4s ease";
       dailyImg.style.opacity = "0";
 
       setTimeout(() => {
 
-        // Change image
         dailyImg.src = "https://i.redd.it/0kg003dnaxuf1.jpeg";
-
-        // Fade image back in
         dailyImg.style.opacity = "1";
 
       }, 400);
 
-      // Shift vibe to red
+      // Theme shift
       document.body.classList.add("red-theme");
 
     }, 800);
