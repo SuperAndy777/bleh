@@ -177,3 +177,71 @@ h1 {
     width: 32px;
   }
 }
+
+/* ===================================== */
+/* STRIKE ANIMATION */
+/* ===================================== */
+
+.strike-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.strike-line {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  width: 0%;
+  background: #e11d48;
+  transform: translateY(-50%);
+  transition: width 0.8s ease;
+}
+
+.strike-active .strike-line {
+  width: 100%;
+}
+
+.new-title {
+  margin-left: 6px;
+  color: #b91c1c;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+}
+
+.strike-active .new-title {
+  opacity: 1;
+}
+
+/* ===================================== */
+/* THEME SHIFT */
+/* ===================================== */
+
+body.red-theme {
+  background: linear-gradient(180deg, #ffe5e5, #ffb3b3);
+  transition: background 1s ease;
+}
+
+body.red-theme .card {
+  box-shadow: 0 25px 60px rgba(185,28,28,0.35);
+}
+
+body.red-theme .time-box {
+  background: linear-gradient(180deg, #ffe0e0, #ffc4c4);
+}
+
+body.red-theme .time-number {
+  color: #b91c1c;
+}
+
+/* ===================================== */
+/* IMAGE TRANSITION */
+/* ===================================== */
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
