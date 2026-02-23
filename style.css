@@ -74,7 +74,7 @@ h1 {
   transition: opacity 0.6s ease 0.4s;
 }
 
-.strike-active .new-title {
+.card.strike-active .new-title {
   opacity: 1;
 }
 
