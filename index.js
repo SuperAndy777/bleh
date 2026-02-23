@@ -1,11 +1,8 @@
-// ===============================
-// COUNTDOWN CONFIG
-// ===============================
+// ======================================
+// TARGET DATE (1st March, 7:00 PM)
+// ======================================
 
-// If you still want a real date, keep this.
-// If date already passed, it will switch automatically.
-
-const targetDate = new Date("February 22, 2026 00:00:00").getTime();
+const targetDate = new Date("March 1, 2026 19:00:00").getTime();
 
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
@@ -17,69 +14,30 @@ const dailyText = document.getElementById("daily-text");
 
 let ended = false;
 
+// ======================================
+// COUNTDOWN LOGIC
+// ======================================
+
 const countdownInterval = setInterval(() => {
 
   const now = new Date().getTime();
   const distance = targetDate - now;
-
-window.addEventListener("load", () => {
-
-  const strikeWrap = document.querySelector(".strike-wrap");
-  const dailyImg = document.getElementById("daily-img");
-
-  // Delay for dramatic pause
-  setTimeout(() => {
-
-    strikeWrap.classList.add("strike-active");
-
-    // Change image after strike
-    setTimeout(() => {
-
-      dailyImg.classList.add("fade-out");
-
-      setTimeout(() => {
-        dailyImg.src = "https://i.redd.it/0kg003dnaxuf1.jpeg";
-        dailyImg.classList.remove("fade-out");
-        dailyImg.classList.add("fade-in");
-      }, 300);
-
-      // Theme shift
-      document.body.classList.add("red-theme");
-
-    }, 800);
-
-  }, 800);
-});
-
-  // ===============================
-  // WHEN COUNTDOWN ENDS
-  // ===============================
 
   if (distance <= 0 && !ended) {
 
     ended = true;
     clearInterval(countdownInterval);
 
-    // One question mark per box
     daysEl.textContent = "?";
     hoursEl.textContent = "?";
     minutesEl.textContent = "?";
     secondsEl.textContent = "?";
 
-    // Update image
-    dailyImg.src =
-      "https://i.pinimg.com/736x/a4/c6/d4/a4c6d44891723f0605eef5bd12db33f6.jpg";
-
-    // Update message
     dailyText.textContent =
-      "waiting for the day when our plan doesn't cancel :')";
+      "Virli ka standup night lessgoooo 🎤🔥";
 
     return;
   }
-
-  // ===============================
-  // NORMAL COUNTDOWN
-  // ===============================
 
   if (!ended) {
 
@@ -95,3 +53,45 @@ window.addEventListener("load", () => {
   }
 
 }, 1000);
+
+
+// ======================================
+// CINEMATIC TRANSITION
+// ======================================
+
+window.addEventListener("load", () => {
+
+  const strikeWrap = document.querySelector(".strike-wrap");
+  const dailyImg = document.getElementById("daily-img");
+
+  if (!strikeWrap) return;
+
+  // Dramatic pause before strike
+  setTimeout(() => {
+
+    strikeWrap.classList.add("strike-active");
+
+    // After strike finishes
+    setTimeout(() => {
+
+      // Fade out image
+      dailyImg.style.opacity = "0";
+
+      setTimeout(() => {
+
+        // Change image
+        dailyImg.src = "https://i.redd.it/0kg003dnaxuf1.jpeg";
+
+        // Fade back in
+        dailyImg.style.opacity = "1";
+
+      }, 300);
+
+      // Shift vibe to red
+      document.body.classList.add("red-theme");
+
+    }, 800);
+
+  }, 900);
+
+});
